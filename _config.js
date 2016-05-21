@@ -1,4 +1,4 @@
 module.exports = {
   token: 'photongToken',
-  port: 3000,
+  port: 4000,
 }
