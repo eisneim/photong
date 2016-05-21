@@ -17,6 +17,7 @@ export default function createAppStore(app) {
     'albums': [
      /*
       name: String,
+      description: String,
       _id: String,
       lastModified: Date,
       cover: photoId,
@@ -26,10 +27,10 @@ export default function createAppStore(app) {
     ],
     'resources': {
     /*
-      albumId: String,
       lastModified: Date,
       uploaded: Date,
       name: String,
+      description: String,
       src: String,
       thumb: String,
       original: String,
@@ -47,13 +48,16 @@ export default function createAppStore(app) {
   const store = createStore(createReducers(app), defaultState)
   store.dispatchAsyc = action => setTimeout(() => store.dispatch(action), 0)
 
+  function saveStore() {
+    const state = store.getState()
+    state.meta.lastSaved = Date.now()
+    fs.writeFile('db.json', JSON.stringify(state))
+  }
+
   return {
     store,
     // save store data to json file
-    saveStore() {
-      const state = store.getState()
-      state.meta.lastSaved = Date.now()
-      fs.writeFile('db.json', JSON.stringify(state))
-    },
+    saveStore,
+    saveStoreAsync: delay => setTimeout(saveStore, delay || 0),
   }
 }

@@ -1,6 +1,18 @@
-/* eslint-disable no-unused-vars */
+import { yyyymmdd } from '../../_shared/utils/util.dateTime'
+import { copyTo } from '../../_shared/utils/util.object'
+import { batchParse, batchGetExif } from '../utils/util.image'
+import assert from 'assert'
+const debug = require('debug')('ph:adminCtrl')
+
+/* eslint-disable no-unused-vars, eqeqeq */
 export default function adminCtrl(app) {
   const wraper = fn => (ctx, next) => fn(app.store.getState(), ctx, next)
+
+  function stripSysPath(path) {
+    assert.ok(path && path.replace, 'pathname must be an string')
+    return path.replace(app.config.rootPath+'/', '')
+  }
+
 
   async function login(state, ctx) {
 
@@ -23,16 +35,20 @@ export default function adminCtrl(app) {
     })
   }
 
-  function newAlbum(state, ctx) {
-    const _id = state.meta.idCount++
-    const newAlbum = Object.assign({}, ctx.request.body, {
-      _id,
+  function newAlbumFn(state, data, id) {
+    const newAlbum = Object.assign({}, data, {
+      _id: id || state.meta.idCount++,
       lastModified: Date.now(),
     })
     if (!newAlbum.resources) newAlbum.resources = []
     if (!newAlbum.tags) newAlbum.tags = []
 
     state.albums.push(newAlbum)
+    return newAlbum
+  }
+
+  function newAlbum(state, ctx) {
+    const newAlbum = newAlbumFn(state, ctx.request.body)
     ctx.modified()
     ctx.json(null, newAlbum)
   }
@@ -59,9 +75,60 @@ export default function adminCtrl(app) {
   }
 
 
-  function newResource(state, ctx) {
-    ctx.body = 'upload pho'
-    ctx.modified()
+  async function newResource(state, ctx) {
+    const { body, files } = ctx.req
+    if (!files || files.length === 0)
+      return ctx.json('no file specified!')
+    const albumId = state.meta.idCount++
+
+    try {
+      const imageInfos = await batchParse(files)
+      const exifs = await batchGetExif(files)
+      const resources = files.map((file, index) => {
+        var date = Date.now()
+        return {
+          _id: 'img_' + state.meta.idCount++,
+          uploaded: date,
+          lastModified: date,
+          original: stripSysPath(file.path),
+          src: stripSysPath(file.resPath),
+          thumb: stripSysPath(file.thumbPath),
+          name: file.originalname,
+          size: file.size,
+          mimetype: file.mimetype,
+          exif: exifs[index],
+          imgInfo: copyTo({}, imageInfos[index], [
+            'width', 'height', 'density', 'resizedWidth', 'resizedHeight',
+          ]),
+        }
+      })
+      debug('new resources:', resources)
+      // save resouces to state
+      resources.forEach(res => {
+        state.resources[res._id] = res
+      })
+
+      const albumData = {
+        resources: resources.map(r => r._id),
+        tags: body.tags ? body.tags.split(',') : [],
+        cover: resources[0]._id,
+        name: body.name,
+        description: body.description,
+        token: body.token,
+      }
+
+      if (!albumData.name) albumData.name = yyyymmdd()
+      const newAlbum = newAlbumFn(state, albumData, albumId)
+
+      ctx.json(null, {
+        album: newAlbum,
+        resources,
+      })
+      // ctx.modified()
+      app.saveStoreAsync(50)
+    } catch (e) {
+      ctx.json(e)
+    }
   }
 
   function deleteResource(state, ctx) {

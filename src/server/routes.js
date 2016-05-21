@@ -4,10 +4,13 @@ var router = require('koa-router')
 
 import getAdminCtrl from './controllers/ctrl.admin'
 import getPubCtrl from './controllers/ctrl.pub'
-
+import createMulterMiddeware from './utils/util.multer'
 
 export default function regRoutes(app) {
   debug('initialize router')
+
+  const upload = createMulterMiddeware(app)
+
   // just a simple check
   async function authCheck(ctx, next) {
     const { token } = app.config
@@ -31,7 +34,7 @@ export default function regRoutes(app) {
   admin.put('/albums/:albumId',          authCheck, adminCtrl.updateAlbum)
   admin.delete('/albums/:albumId',       authCheck, adminCtrl.deleteAlbum)
 
-  admin.post('/resources',               authCheck, adminCtrl.newResource)
+  admin.post('/resources', authCheck, upload.array('resources', 50), adminCtrl.newResource)
   admin.put('/resources/:resourceId',    authCheck, adminCtrl.updateResource)
   admin.delete('/resources/:resourceId', authCheck, adminCtrl.deleteResource)
 

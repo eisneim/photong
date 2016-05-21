@@ -1,14 +1,14 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars, eqeqeq */
 export default function adminCtrl(app) {
   const wraper = fn => (ctx, next) => fn(app.store.getState(), ctx, next)
 
   function getAlbums(state, ctx) {
     ctx.json(null,
       state.albums
-        .sort((a,b) => a.lastModified - b.lastModified)
+        .sort((a, b) => a.lastModified - b.lastModified)
         .map(a => {
-          const newAlbum = Object.assign({},a, {
-            cover: state.resources[a.cover]
+          const newAlbum = Object.assign({}, a, {
+            cover: state.resources[a.cover],
           })
           return newAlbum
         })
@@ -20,7 +20,7 @@ export default function adminCtrl(app) {
     if (!album)
       return ctx.json(`albumId: ${ctx.params.albumId} does not match any album`)
     if (album.token && album.token !== ctx.query.albumToken)
-      return ctx.json(`albumToken is required to view this album`)
+      return ctx.json('albumToken is required to view this album')
 
     const joined = Object.assign({}, album)
     joined.resources = (joined.resources || [])

@@ -7,9 +7,10 @@ import setConfig from './config'
 const debug = require('debug')('ph:server')
 
 const app = new koa()
-const { store, saveStore } = createAppStore(app)
+const { store, saveStore, saveStoreAsync } = createAppStore(app)
 app.store = app.context.store = store
 app.saveStore = app.context.saveStore = saveStore
+app.saveStoreAsync = app.context.saveStoreAsync = saveStoreAsync
 
 app.config = setConfig(app)
 
