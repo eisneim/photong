@@ -44,10 +44,10 @@ export default function regRoutes(app) {
     prefix: '',
   })
 
-  pubRoute.get('/albums',                    pubCtrl.getAlbums)
+  pubRoute.get('/albums',                   pubCtrl.getAlbums)
   pubRoute.get('/albums/:albumId',          pubCtrl.getAlbum)
-  pubRoute.get('/resources/:id',             pubCtrl.getResource)
-
+  pubRoute.get('/resources/:resourceId',    pubCtrl.getResource)
+  pubRoute.get('/static/:folername/:filename', pubCtrl.sendResource)
 
   // ------------------
   app.use(admin.routes())

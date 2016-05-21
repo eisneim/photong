@@ -49,7 +49,7 @@ export default function regMiddleware(app) {
         err: errObj ? (errObj.message || errObj) : null,
       }
       if (errObj) {
-        ctx.status = 400
+        ctx.status = errObj.status || 400
       }
 
       ctx.body = body

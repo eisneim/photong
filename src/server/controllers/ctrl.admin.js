@@ -10,7 +10,7 @@ export default function adminCtrl(app) {
 
   function stripSysPath(path) {
     assert.ok(path && path.replace, 'pathname must be an string')
-    return path.replace(app.config.rootPath+'/', '')
+    return path.replace(app.config.rootPath + '/uploads/', 'static/')
   }
 
 
