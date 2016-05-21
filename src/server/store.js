@@ -9,11 +9,14 @@ export default function createAppStore(app) {
   const initState = {
     'meta': {
       'lastSaved': 0,
+      'lastModified': 0,
       'idCount': 0,
+      'token': 'photongToken',
+      'username': 'photong',
     },
     'albums': [
      /*
-      title: String,
+      name: String,
       _id: String,
       lastModified: Date,
       cover: photoId,
@@ -37,6 +40,8 @@ export default function createAppStore(app) {
   }
   const dbState = require('../../db.json')
   const defaultState = dbState.meta ? dbState : initState
+  if (!defaultState.resources) defaultState.resources = {}
+
   debug('defaultState:', defaultState)
 
   const store = createStore(createReducers(app), defaultState)
@@ -48,7 +53,7 @@ export default function createAppStore(app) {
     saveStore() {
       const state = store.getState()
       state.meta.lastSaved = Date.now()
-      fs.writeFile('db.json', state)
+      fs.writeFile('db.json', JSON.stringify(state))
     },
   }
 }

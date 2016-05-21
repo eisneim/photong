@@ -1,6 +1,6 @@
 import metaHandlers from './rd.meta'
 import albumHandlers from './rd.albums'
-import photoHandlers from './rd.photoes'
+import resHandlers from './rd.resources'
 const debug = require('debug')('ph:reducers')
 /**
  * reducerWraper free us from using tons of switch() case pair
@@ -30,7 +30,7 @@ export default function regReducer(ctx) {
     return {
       meta: reducerWraper(metaHandlers, state.meta, action, ctx),
       albums: reducerWraper(albumHandlers, state.albums, action, ctx),
-      photoes: reducerWraper(photoHandlers, state.photoes, action, ctx),
+      resources: reducerWraper(resHandlers, state.resources, action, ctx),
     }
   }
 }

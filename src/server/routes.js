@@ -26,6 +26,7 @@ export default function regRoutes(app) {
 
   admin.post('/login',                             adminCtrl.login)
   admin.get('/logout',                             adminCtrl.logout)
+  admin.get('/save',                     authCheck, adminCtrl.saveStore)
   admin.post('/albums',                  authCheck, adminCtrl.newAlbum)
   admin.put('/albums/:albumId',          authCheck, adminCtrl.updateAlbum)
   admin.delete('/albums/:albumId',       authCheck, adminCtrl.deleteAlbum)
@@ -41,7 +42,7 @@ export default function regRoutes(app) {
   })
 
   pubRoute.get('/albums',                    pubCtrl.getAlbums)
-  pubRoute.get('/albums/:id',                pubCtrl.getAlbum)
+  pubRoute.get('/albums/:albumId',          pubCtrl.getAlbum)
   pubRoute.get('/resources/:id',             pubCtrl.getResource)
 
 
