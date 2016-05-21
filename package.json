@@ -1,8 +1,8 @@
 {
   "name": "photong",
-  "version": "0.0.0",
-  "description": "simple photo host, sharing app",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "simple photo manager & sharing app",
+  "main": "server.js",
   "scripts": {
     "test": "karma start",
     "server": "nodemon"
@@ -67,7 +67,12 @@
     "classnames": "^2.2.5",
     "isomorphic-fetch": "^2.2.1",
     "koa": "^2.0.0",
+    "koa-bodyparser": "^3.1.0",
+    "koa-compress": "^2.0.0",
+    "koa-convert": "^1.2.0",
     "koa-router": "^7.0.1",
+    "koa-send": "^3.2.0",
+    "koa-static": "^2.0.0",
     "preact": "^4.8.0",
     "preact-svg": "^1.5.1",
     "redux": "^3.5.2"

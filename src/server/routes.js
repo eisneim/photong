@@ -4,7 +4,7 @@ var router = require('koa-router')()
 export default function regRoutes(app) {
   debug('initialize router')
 
-  router.get('/', ctx => {
+  router.get('/test', ctx => {
     ctx.body = 'it worksss'
   })
 

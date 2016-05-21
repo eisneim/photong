@@ -16,7 +16,8 @@ export default function createAppStore(app) {
       title: String,
       _id: String,
       cover: photoId,
-      photoes: [photoId]
+      photoes: [photoId],
+      token: String,
       */
     ],
     'photoes': {
