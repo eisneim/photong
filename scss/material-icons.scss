@@ -1,0 +1,67 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../public/fonts/MaterialIcons-Regular.eot"); /* For IE6-8 */
+  // src: local('Material Icons'),
+  //      local('MaterialIcons-Regular'),
+  //      require("../../public/fonts/MaterialIcons-Regular.woff2") format('woff2'),
+  //      require("../../public/fonts/MaterialIcons-Regular.woff") format('woff'),
+  //      require("../../public/fonts/MaterialIcons-Regular.ttf") format('truetype');
+
+  src: local('Material Icons');
+  src: local('MaterialIcons-Regular');
+  src: url("../public/fonts/MaterialIcons-Regular.woff2") format('woff2');
+  src: url("../public/fonts/MaterialIcons-Regular.woff") format('woff');
+  src: url("../public/fonts/MaterialIcons-Regular.ttf") format('truetype');
+}
+
+:global{
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    font-size:inherit;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    // line-height: inherit;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+    position: relative;
+    // top: 0.1em;
+    &.ph-icon{
+      position: relative;
+      top: 7px;
+    }
+  }
+
+  // Rules for sizing the icon.
+  .material-icons.md-18 { font-size: 18px; }
+  .material-icons.md-24 { font-size: 24px; }
+  .material-icons.md-36 { font-size: 36px; }
+  .material-icons.md-48 { font-size: 48px; }
+
+  // Rules for using icons as black on a light background.
+  .material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+  .material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+  // Rules for using icons as white on a dark background.
+  .material-icons.md-light { color: rgba(255, 255, 255, 1); }
+  .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+}

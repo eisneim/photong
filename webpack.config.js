@@ -1,9 +1,9 @@
-var webpack = require("webpack")
-var path = require("path")
+var webpack = require('webpack')
+var path = require('path')
 // to extract text from boundle into seperate file, like style.css, common.css etc.
-var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-var isProduction = process.env.NODE_ENV === "production"
+var isProduction = process.env.NODE_ENV === 'production'
 
 var devConfig = {
   entry: {
@@ -43,46 +43,45 @@ var devConfig = {
       },
       {
         // for scss files
-        test:/\.scss$/,
-        exclude:/node_modules/,
+        test: /\.scss$/,
+        exclude: /node_modules/,
         loader: isProduction ?
-          ExtractTextPlugin.extract("style", "css?modules&localIdentName=[local]_[hash:base64:5]!autoprefixer!sass") :
-          "style!css?modules&localIdentName=[path][name]___[local]---[hash:base64:5]!autoprefixer!sass",
+          ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[local]_[hash:base64:5]!autoprefixer!sass') :
+          'style!css?modules&localIdentName=[path][name]___[local]---[hash:base64:5]!autoprefixer!sass',
           // other options: [path][name]---[local]---[hash:base64:5]
-      },{
-        test:/\.css$/,
-        exclude:/node_modules/,
-        loader: isProduction ?
-          ExtractTextPlugin.extract("style", "css") :
-          "style!css!autoprefixer",
       },
-      { test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/, loader: "url-loader?limit=10000" }
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style', 'css'),
+      },
+      { test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=10000' },
     ],
   }, // end module
   resolve: {
-    // which file extension can be require or import "name" without specify .js .jsx
-    extensions: ["", ".js", ".jsx"],
+    // which file extension can be require or import 'name' without specify .js .jsx
+    extensions: [ '', '.js', '.jsx' ],
     alias: {
-      'pub': path.resolve(__dirname, 'public'),
+      'PUB': path.resolve(__dirname, 'public'),
+      'SCSS': path.resolve(__dirname, 'scss'),
     },
   },
   devServer: {
     port:4003,
     // where is the static file located
-    contentBase: "public",
+    contentBase: 'public',
     watch: true,
-    host: "localhost",
+    host: 'localhost',
     // if we have backend server to serve data, we can use proxy
     proxy: {
-     "*": {
-       target: "http://localhost:" + 4000,
-       secure: false,
+      '*': {
+        target: 'http://localhost:' + 4000,
+        secure: false,
        // bypass: function bypass(req, res, proxyOptions) {
        //   if (/sockjs/.test(req.path))
        //     return false
        //   return req.path
        // }
-     },
+      },
     },
   },
   plugins: [
@@ -100,9 +99,9 @@ var devConfig = {
 `
 ),
     new webpack.DefinePlugin({
-      CONTRIBUTORS: JSON.stringify(['Eisneim']),
+      CONTRIBUTORS: JSON.stringify([ 'Eisneim' ]),
     }),
-  ]
+  ],
 }
 
 var prodConfig = Object.assign({}, devConfig, {
@@ -111,6 +110,8 @@ var prodConfig = Object.assign({}, devConfig, {
   },
   plugin: devConfig.plugins.slice(2),
 })
+
+prodConfig.plugins.push(new ExtractTextPlugin("photong.css"))
 
 
 module.exports = isProduction ? prodConfig : devConfig
