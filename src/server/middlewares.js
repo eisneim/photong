@@ -20,7 +20,7 @@ export default function regMiddleware(app) {
   app.use(bodyParser({
     onerror: (err, ctx) => {
       ctx.throw('invalid json post data', 422)
-    }
+    },
   }))
 
   app.use(compress({
@@ -28,11 +28,11 @@ export default function regMiddleware(app) {
     //   return /text/i.test(contentType)
     // },
     threshold: 2048,
-    flush: require('zlib').Z_SYNC_FLUSH
+    flush: require('zlib').Z_SYNC_FLUSH,
   }))
 
   app.use(
-    convert(serve(app.config.rootPath +'/public', {
+    convert(serve(app.config.rootPath + '/public', {
       gzip: true,
       defer: true,
       maxage: app.env === 'development' ? 0 : 1000 * 60 * 60 * 24 * 5,

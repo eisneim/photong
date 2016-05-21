@@ -15,14 +15,18 @@ export default function createAppStore(app) {
      /*
       title: String,
       _id: String,
+      lastModified: Date,
       cover: photoId,
-      photoes: [photoId],
+      resources: [photoId],
       token: String,
       */
     ],
-    'photoes': {
+    'resources': {
     /*
       albumId: String,
+      lastModified: Date,
+      uploaded: Date,
+      name: String,
       src: String,
       thumb: String,
       original: String,

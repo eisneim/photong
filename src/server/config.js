@@ -1,4 +1,5 @@
 import path from 'path'
+import cfg from '../../_config'
 
 export default function setConfig(app) {
   var config = {
@@ -6,5 +7,5 @@ export default function setConfig(app) {
     env: app.env,
   }
 
-  return config
+  return Object.assign(config, cfg)
 }

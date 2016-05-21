@@ -17,7 +17,7 @@ app.config = setConfig(app)
 middlewares(app)
 regRoutes(app)
 
-app.listen(3000, () => {
-  debug('[32mserver started at port: %s[39m', 3000)
+app.listen(app.config.port, () => {
+  debug('[32mserver started at port: %s[39m', app.config.port)
 })
 

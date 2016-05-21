@@ -17,6 +17,7 @@ dump.rdb
 .sass-cache/
 .bower-*/
 db.json
+uploads/
 
 
 public/build
