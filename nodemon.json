@@ -1,0 +1,11 @@
+{
+  "watch": [
+    "src/server",
+    "src/_shared"
+  ],
+  "ext": "js jsx html json",
+  "exec":"node ./server.js",
+  "env": {
+    "DEBUG":"ph*"
+  }
+}
