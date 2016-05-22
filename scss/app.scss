@@ -1,4 +1,22 @@
-
 @import "color-palette.scss";
 @import "layout.scss";
 @import "material-icons.scss";
+
+html, body {
+  background: #E0E4E9;
+}
+
+:global {
+  #app {
+    position: static;
+    overflow: visible;
+  }
+
+  #fab {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 999;
+  }
+
+}
