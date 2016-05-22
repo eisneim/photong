@@ -2,6 +2,8 @@
 const debug = require('debug')('ph:routes')
 var router = require('koa-router')
 import send from 'koa-send'
+import serve from 'koa-static'
+import convert from 'koa-convert'
 import getAdminCtrl from './controllers/ctrl.admin'
 import getPubCtrl from './controllers/ctrl.pub'
 import createMulterMiddeware from './utils/util.multer'
@@ -55,6 +57,14 @@ export default function regRoutes(app) {
 
   app.use(pubRoute.routes())
     .use(pubRoute.allowedMethods())
+
+  app.use(
+    convert(serve(app.config.rootPath + '/public', {
+      gzip: true,
+      defer: false,
+      maxage: app.env === 'development' ? 0 : 1000 * 60 * 60 * 24 * 5,
+    }))
+  )
 
   async function pageNotFound(ctx, next) {
     await next()

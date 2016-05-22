@@ -11,6 +11,8 @@ export default function adminCtrl(app) {
         .map(a => {
           const newAlbum = Object.assign({}, a, {
             cover: state.resources[a.cover].thumb,
+            token: null,
+            isProtected: Boolean(a.token),
           })
           return newAlbum
         })

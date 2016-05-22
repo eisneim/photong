@@ -1,0 +1,116 @@
+@import "SCSS/color-palette.scss";
+
+.notifyWraper {
+  width: 100%;
+}
+
+.notify {
+  margin-bottom: 5px;
+  color: #fff;
+  font-size: 14px;
+  &.shouldHide .notifyInner{
+    animation: hideRight 0.3s ease-out;
+    animation-fill-mode: forwards;
+  }
+}
+.shouldHide{
+  font-weight: normal;
+}
+
+.notifyInner{
+  cursor: pointer;
+  display: inline-block;
+  width: auto;
+  float: right;
+  padding:0.4em 0.5em;
+  border-radius: 3px;
+  box-shadow: $shadow-depth2;
+  animation: showup 0.3s cubic-bezier(.25,.8,.25,1);
+  animation-fill-mode: forwards;
+  p {
+    margin: 0.1em 0;
+  }
+  h4 {
+    font-weight: bold;
+    margin: 0.3em 0 0;
+  }
+}
+
+.notify_error .notifyInner{
+  // background-color: map-get($color-pink,'500');
+  background-color: #f26969;
+}
+
+.notify_success .notifyInner{
+  background-color: map-get($color-green,'300');
+}
+
+.notify_info .notifyInner{
+  background-color: map-get($color-indigo,'300');
+}
+
+.notify_warn .notifyInner{
+  background-color: map-get($color-orange,'300');
+}
+
+
+
+@keyframes showup {
+  0% {
+    opacity: 0;
+    transform: translateY(100px) scale(0.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hideRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+}
+
+// --------------------- loading ------------
+$barheight: 3px;
+.loadingWraper {
+  width: 100%;
+}
+
+.bar {
+  background-color: #00ab6b;
+  height: $barheight;
+  position:absolute;
+  top:0;
+  &.loading{
+    top:-$barheight;
+    animation: stripAnim 1s ease-in-out 0s infinite;
+  }
+}
+
+
+
+@keyframes stripAnim {
+  0% {
+    width: 0%;
+    left:0;
+  }
+  48% {
+    width: 100%;
+    left:0;
+  }
+  // 53% {
+  //   width: 100%;
+  //   left:0;
+  // }
+  100% {
+    left:100%;
+    width: 100%;
+  }
+}

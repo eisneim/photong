@@ -1,6 +1,5 @@
 import bodyParser from 'koa-bodyparser'
-import serve from 'koa-static'
-import convert from 'koa-convert'
+// import convert from 'koa-convert'
 import compress from 'koa-compress'
 
 /* eslint-disable no-console */
@@ -64,11 +63,4 @@ export default function regMiddleware(app) {
     await next()
   })
 
-  app.use(
-    convert(serve(app.config.rootPath + '/public', {
-      gzip: true,
-      defer: true,
-      maxage: app.env === 'development' ? 0 : 1000 * 60 * 60 * 24 * 5,
-    }))
-  )
 }

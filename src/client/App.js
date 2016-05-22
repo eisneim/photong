@@ -8,7 +8,8 @@ import Sidebar from './components/Sidebar'
 import Profile from './components/PageProfile'
 import Home from './components/PageHome'
 import About from './components/PageAbout'
-
+import Album from './components/PageAlbum'
+import Manage from './components/PageManage'
 
 export default class App extends Component {
   fab() {
@@ -26,6 +27,9 @@ export default class App extends Component {
             <Router>
               <Home path="/" default />
               <About path="/about"/>
+              <Album path="/album/:albumId" />
+              <Manage path="/manage" />
+
               <Profile path="/profile" id="me" />
               <Profile path="/profile/:id" />
             </Router>
