@@ -1,7 +1,8 @@
 import { h, Component } from 'preact'
-import { Spinner } from 'preact-mdl'
 import { Link } from 'preact-router'
 import styles from './PageHome.scss'
+
+const debug = require('debug')('ph:home')
 
 export default class Home extends Component {
 
@@ -14,12 +15,13 @@ export default class Home extends Component {
 
   $requestAlbums() {
     const { store, actions } = this.context
-    store.dispatch(actions.$getAlbums())
+    setTimeout(() => {
+      store.dispatch(actions.$getAlbums())
+    }, 100)
   }
 
   $renderAlbums(albums) {
-    if (!albums || albums.length === 0)
-      return <h3>No photo has been uploaded yet</h3>
+
 
     return albums.map(ab => {
       const cover = ab.cover && ab.cover._id ? ab.cover.thumb : ab.cover
@@ -32,14 +34,14 @@ export default class Home extends Component {
     })
   }
 
-  render({ albums }, { __loaded }) {
-
-    if (!__loaded && albums.length === 0) {
-      setTimeout(() => this.setState({ __loaded: true }), 1000)
+  render({ albums, albumsLoaded }) {
+    if (!albumsLoaded) {
       this.$requestAlbums()
-      return <div class="_centered_loader"><Spinner active/></div>
+      return <span>loading.....</span>
     }
 
+    if (!albums || albums.length === 0)
+      return <h3>No photo has been uploaded yet</h3>
 
     return (
       <div class={styles.root}>

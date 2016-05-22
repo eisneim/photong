@@ -16,7 +16,6 @@ export default class Sidebar extends Component {
 
   hide = () => {
     this.base.classList.remove('is-visible')
-    console.log('this.$backdrop:', this.$backdrop)
     if (this.$backdrop) {
       this.$backdrop.classList.remove('is-visible')
     }

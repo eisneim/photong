@@ -71,11 +71,11 @@ function requestingDone(url, method) {
   if (!requestingUrl) return true
   if (requestingUrl.url !== url ||
     requestingUrl.method !== method ||
-    Date.now() - requestingUrl.timeStamp >= 2000
+    Date.now() - requestingUrl.timeStamp >= 1000
   ) return true
 
-  notify.info('网络请求中，请稍候')
-  console.error('same request fired within 2 seconds', requestingUrl)
+  notify.info('requesting same url, please wait')
+  console.error('same request fired within 1 seconds', requestingUrl)
   return false
 }
 

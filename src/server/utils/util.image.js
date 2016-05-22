@@ -118,7 +118,7 @@ export function batchParse(files = []) {
     file.resPath = path.dirname(file.path) + '/' + basename + random + '_res' + extname
     file.thumbPath = path.dirname(file.path) + '/' + basename + random + '_thumb' + extname
 
-    return resizeAndThumb(file.path, file.resPath, file.thumbPath, 1200, 2000, 200)
+    return resizeAndThumb(file.path, file.resPath, file.thumbPath, 1440, 2000, 200)
   })
 
   return Promise.all(promises)

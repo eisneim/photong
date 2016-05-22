@@ -29,20 +29,24 @@ const albumHandlers = {
         state[index] = a
       }
     })
+    ctx.store.getState().meta.albumsLoaded = true
     return state
   },
 
   $GET_ALBUM(state, payload, ctx, action) {
+    console.log('___callded')
     if (!action.ready) return state
     const album = action.result.data
     // to avoid dup request
     album.isFresh = true
     const index = state.findIndex(p => p._id == album._id)
+    album.cover = album.resources.find(r => r._id === album.cover).thumb
     if (index > -1) {
       state[index] = album
     } else {
       state.push(album)
     }
+
 
     return state
   },
