@@ -13,14 +13,15 @@
 .item {
   position: relative;
   cursor: pointer;
-  flex: 1 0 20%;
-  min-height: 200px;
+  flex: 1 0 16.6666%;
   overflow: hidden;
   outline: none;
   border: 2px solid #e0e4e9;
   border-width: 0 2px 4px;
   background: #2a2e39;
   display: block;
+  max-width: 450px;
+  min-height: 200px;
 
   .item__image {
     position: absolute;
@@ -43,7 +44,7 @@
     margin: 0;
     padding: 1em;
     color: #dbdbdb;
-    font-size: 1.85em;
+    font-size: 1.5em;
     line-height: 1;
     transition: transform 0.3s, opacity 0.3s;
   }
@@ -57,22 +58,46 @@
 
 @media screen and (max-width: 1440px) {
   .item {
-    -webkit-flex: 1 0 25%;
-    flex: 1 0 25%;
+    -webkit-flex: 1 0 20%;
+    flex: 1 0 20%;
+    min-height: 200px;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
+  .item {
+    -webkit-flex: 1 0 25%;
+    flex: 1 0 25%;
+    min-height: 200px;
+  }
+}
+
+// @media screen and (max-width: 768px) {
+//   .item {
+//     -webkit-flex: 1 0 25%;
+//     flex: 1 0 25%;
+//     min-height: 200px;
+//   }
+// }
+
+@media screen and (max-width: 640px) {
   .item {
     -webkit-flex: 1 0 33.333%;
     flex: 1 0 33.333%;
+    min-height: 180px;
+  }
+
+  .item,
+  .intro__content {
+    font-size: 0.85em;
   }
 }
 
-@media screen and (max-width: 590px) {
+@media screen and (max-width: 580px) {
   .item {
     -webkit-flex: 1 0 50%;
     flex: 1 0 50%;
+    min-height: 180px;
   }
 
   .item,
@@ -85,6 +110,7 @@
   .item {
     -webkit-flex: 1 0 100%;
     flex: 1 0 100%;
+    min-height: 300px;
   }
 
   .intro__title {

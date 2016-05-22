@@ -2,6 +2,7 @@
 import { h, Component } from 'preact'
 import { Router } from 'preact-router'
 import { Layout, Button, Icon } from 'preact-mdl'
+import * as actions from './actionCreators.js'
 
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
@@ -12,11 +13,21 @@ import Album from './components/PageAlbum'
 import Manage from './components/PageManage'
 
 export default class App extends Component {
+  constructor(props) {
+    super()
+    this.context = {
+      store: props.store,
+      actions,
+    }
+  }
+
   fab() {
     console.log('You clicked New!')
   }
 
-  render() {
+  render({ store }) {
+    const state = store.getState()
+
     return (
       <div id="app">
         <Layout fixed-header>
@@ -25,9 +36,9 @@ export default class App extends Component {
           <Button id="fab" fab colored onClick={this.fab}><Icon icon="create" /></Button>
           <Layout.Content>
             <Router>
-              <Home path="/" default />
+              <Home albums={state.albums} path="/" default />
               <About path="/about"/>
-              <Album path="/album/:albumId" />
+              <Album albums={state.albums} path="/album/:albumId" />
               <Manage path="/manage" />
 
               <Profile path="/profile" id="me" />

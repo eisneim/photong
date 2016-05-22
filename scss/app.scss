@@ -24,6 +24,12 @@ html, body {
     right: 10px;
     z-index: 999;
   }
+  ._centered_loader {
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin: 100px auto;
+  }
 
   .mdl-layout__content {
     height: auto;

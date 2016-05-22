@@ -1,44 +1,50 @@
 import { h, Component } from 'preact'
-// import { Card, Button, Icon } from 'preact-mdl'
+import { Spinner } from 'preact-mdl'
 import { Link } from 'preact-router'
 import styles from './PageHome.scss'
 
 export default class Home extends Component {
-  shouldComponentUpdate() {
-    return false
+
+  constructor(props) {
+    super()
+    this.state = {
+      __loaded: props.albums && props.albums.length > 0,
+    }
   }
-  render() {
+
+  $requestAlbums() {
+    const { store, actions } = this.context
+    store.dispatch(actions.$getAlbums())
+  }
+
+  $renderAlbums(albums) {
+    if (!albums || albums.length === 0)
+      return <h3>No photo has been uploaded yet</h3>
+
+    return albums.map(ab => {
+      const cover = ab.cover && ab.cover._id ? ab.cover.thumb : ab.cover
+      return (
+        <Link href={'/album/' + ab._id} class={styles.item}>
+          <img class={styles.item__image} src={cover} alt={ab.name}/>
+          <h2 class={styles.item__title}>{ab.name} ({ab.resources.length})</h2>
+        </Link>
+      )
+    })
+  }
+
+  render({ albums }, { __loaded }) {
+
+    if (!__loaded && albums.length === 0) {
+      setTimeout(() => this.setState({ __loaded: true }), 1000)
+      this.$requestAlbums()
+      return <div class="_centered_loader"><Spinner active/></div>
+    }
+
+
     return (
       <div class={styles.root}>
         <div class={styles.itemsWrap}>
-          <Link href={'/album/1'} class={styles.item}>
-            <img class={styles.item__image} src="/img/item01.jpg" alt="item01"/>
-            <h2 class={styles.item__title}>Magnificence</h2>
-          </Link>
-          <Link href={'/album/1'} class={styles.item}>
-            <img class={styles.item__image} src="/img/item02.jpg" alt="item01"/>
-            <h2 class={styles.item__title}>2016-6-2</h2>
-          </Link>
-          <Link href={'/album/1'} class={styles.item}>
-            <img class={styles.item__image} src="/img/item03.jpg" alt="item01"/>
-            <h2 class={styles.item__title}>Electrifying</h2>
-          </Link>
-          <Link href={'/album/1'} class={styles.item}>
-            <img class={styles.item__image} src="/img/item04.jpg" alt="item01"/>
-            <h2 class={styles.item__title}>Dynamic</h2>
-          </Link>
-          <Link href={'/album/1'} class={styles.item}>
-            <img class={styles.item__image} src="/img/item05.jpg" alt="item01"/>
-            <h2 class={styles.item__title}>Awe-inspiring</h2>
-          </Link>
-          <Link href={'/album/1'} class={styles.item}>
-            <img class={styles.item__image} src="/img/item06.jpg" alt="item01"/>
-            <h2 class={styles.item__title}>Magnificence</h2>
-          </Link>
-          <Link href={'/album/1'} class={styles.item}>
-            <img class={styles.item__image} src="/img/item07.jpg" alt="item01"/>
-            <h2 class={styles.item__title}>Magnificence</h2>
-          </Link>
+          {this.$renderAlbums(albums)}
         </div>
       </div>
     )

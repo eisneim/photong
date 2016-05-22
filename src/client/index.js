@@ -8,9 +8,9 @@ import makeStore from './store'
 var appCtx = {}
 appCtx.store = makeStore(appCtx)
 
-var $node
+var $node, $container = document.getElementById('app')
 function renderApp() {
-  $node = render(<App store={appCtx.store}/>, document.body, $node)
+  $node = render(<App store={appCtx.store}/>, $container, $node)
 }
 
 renderApp(appCtx.store)

@@ -7,7 +7,7 @@ export default function adminCtrl(app) {
   function getAlbums(state, ctx) {
     ctx.json(null,
       state.albums
-        .sort((a, b) => a.lastModified - b.lastModified)
+        .sort((a, b) => b.lastModified - a.lastModified)
         .map(a => {
           const newAlbum = Object.assign({}, a, {
             cover: state.resources[a.cover].thumb,
