@@ -7,8 +7,19 @@ export default class Sidebar extends Component {
   shouldComponentUpdate() {
     return false
   }
-  hide() {
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.$backdrop = document.querySelector('.mdl-layout__obfuscator')
+    })
+  }
+
+  hide = () => {
     this.base.classList.remove('is-visible')
+    console.log('this.$backdrop:', this.$backdrop)
+    if (this.$backdrop) {
+      this.$backdrop.classList.remove('is-visible')
+    }
   }
   render() {
     return (

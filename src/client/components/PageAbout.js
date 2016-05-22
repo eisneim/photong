@@ -1,23 +1,22 @@
 import { h, Component } from 'preact'
-import { Card, Button, Icon } from 'preact-mdl'
-import styles from './PageAbout'
+import { Card, Button } from 'preact-mdl'
+import styles from './PageAbout.scss'
 
 export default class About extends Component {
-  shouldComponentUpdate() {
-    return false
-  }
+
   render() {
     return (
       <div class={styles.root}>
-        <Card shadow="4">
+        <Card shadow="8" class={styles.infoBox}>
           <Card.Title class="graphic">
             <Card.TitleText>About</Card.TitleText>
           </Card.Title>
-          <Card.Text style="text-align:center">
-            <Icon icon="person" style="display:block; font-size:100px;" />
-            <p>Nothing to see here.</p>
+          <Card.Text>
+            <p>Hello, this is some about me text</p>
           </Card.Text>
-          <Card.Actions style="text-align:right">
+          <Card.Actions data-layout="row">
+            <a class="mdl-button mdl-js-button" target="_blank" href="http://glexe.com">500px</a>
+            <span data-flex/>
             <Button primary>Click Me</Button>
           </Card.Actions>
         </Card>

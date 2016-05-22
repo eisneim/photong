@@ -6,7 +6,13 @@ html, body {
   background: #E0E4E9;
 }
 
+
 :global {
+  * {
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+  }
   #app {
     position: static;
     overflow: visible;
@@ -19,4 +25,8 @@ html, body {
     z-index: 999;
   }
 
+  .mdl-layout__content {
+    height: auto;
+    height: calc(100% - 64px);
+  }
 }

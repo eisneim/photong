@@ -1,7 +1,7 @@
 /* eslint-disable no-multi-spaces */
 const debug = require('debug')('ph:routes')
 var router = require('koa-router')
-
+import send from 'koa-send'
 import getAdminCtrl from './controllers/ctrl.admin'
 import getPubCtrl from './controllers/ctrl.pub'
 import createMulterMiddeware from './utils/util.multer'
@@ -55,4 +55,12 @@ export default function regRoutes(app) {
 
   app.use(pubRoute.routes())
     .use(pubRoute.allowedMethods())
+
+  async function pageNotFound(ctx, next) {
+    await next()
+    await send(ctx, 'index.html', {
+      root: app.config.rootPath + '/public',
+    })
+  }
+  app.use(pageNotFound)
 }

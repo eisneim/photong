@@ -7,6 +7,7 @@ import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import Profile from './components/PageProfile'
 import Home from './components/PageHome'
+import About from './components/PageAbout'
 
 
 export default class App extends Component {
@@ -24,6 +25,7 @@ export default class App extends Component {
           <Layout.Content>
             <Router>
               <Home path="/" default />
+              <About path="/about"/>
               <Profile path="/profile" id="me" />
               <Profile path="/profile/:id" />
             </Router>
