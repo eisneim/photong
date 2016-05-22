@@ -18,7 +18,7 @@ export default class Album extends Component {
   $requestAlbum(albumId) {
     setTimeout(()=> {
       this.props.dispatch(actions.$getAlbum(albumId))
-    }, 100)
+    }, 0)
   }
 
   $renderResoures(album) {
@@ -45,7 +45,6 @@ export default class Album extends Component {
 
   render() {
     const { albums, params, requestingAlbum } = this.props
-    console.log('this.props', this.props, this.context)
     if (requestingAlbum)
       return <span>Loading...</span>
     const { albumId } = params
