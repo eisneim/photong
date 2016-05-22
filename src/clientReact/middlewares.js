@@ -91,7 +91,6 @@ export const readyStatePromise = store => next => action => {
   if (!action.promise) {
     return next(action)
   }
-  console.log('action.promise:', action.promise)
   function makeAction(ready, data) {
 
     let newAction = Object.assign({}, action, { ready }, data)
@@ -100,8 +99,8 @@ export const readyStatePromise = store => next => action => {
     return newAction
   }
 
-  if (action.immidiate)
-    next(makeAction(false))
+  // if (action.immidiate)
+  next(makeAction(false))
 
   return action.promise.then(
     result => next(makeAction(true, { result })),

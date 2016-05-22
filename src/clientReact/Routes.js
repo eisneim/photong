@@ -6,6 +6,7 @@ import { syncHistoryWithStore } from 'react-router-redux'
 
 import Home from './pages/Home'
 import About from './pages/About'
+import Album from './pages/Album'
 import App from './pages/App'
 
 
@@ -23,6 +24,7 @@ export default function AppFn(ctx) {
         <Route path="/" component={App}>
           <IndexRoute component={Home}/>
           <Route path="/About" component={About}/>
+          <Route path="/album/:albumId" component={Album}/>
         </Route>
       </Router>
     </Provider>

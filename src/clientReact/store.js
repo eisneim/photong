@@ -35,10 +35,15 @@ const albumHandlers = {
   },
 
   $GET_ALBUM(state, payload, ctx, action) {
-    if (!action.ready) return state
+    const appState = ctx.store.getState()
+    if (!action.ready) {
+      appState.meta.requestingAlbum = true
+      return state
+    }
+
     const album = action.result.data
     // to avoid dup request
-    album.isFresh = true
+    // album.isFresh = true
     const index = state.findIndex(p => p._id == album._id)
     album.cover = album.resources.find(r => r._id === album.cover).thumb
     if (index > -1) {
@@ -46,8 +51,7 @@ const albumHandlers = {
     } else {
       state.push(album)
     }
-
-
+    appState.meta.requestingAlbum = false
     return state
   },
 
