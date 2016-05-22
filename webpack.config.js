@@ -9,7 +9,7 @@ var devConfig = {
   entry: {
     'photong': [
       'webpack-dev-server/client?http://0.0.0.0:4003',
-      './src/client/index.js',
+      './src/clientReact/index.js',
     ],
   },
   output: {
@@ -106,7 +106,7 @@ var devConfig = {
 
 var prodConfig = Object.assign({}, devConfig, {
   entry: {
-    'photong': './src/client/index.js',
+    'photong': './src/clientReact/index.js',
   },
   plugin: devConfig.plugins.slice(2),
 })

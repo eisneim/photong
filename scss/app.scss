@@ -4,6 +4,7 @@
 
 html, body {
   background: #E0E4E9;
+  height: 100%;
 }
 
 
@@ -14,8 +15,7 @@ html, body {
    box-sizing: border-box;
   }
   #app {
-    position: static;
-    overflow: visible;
+    height: 100%;
   }
 
   #fab {
