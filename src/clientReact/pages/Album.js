@@ -36,6 +36,20 @@ export default class Album extends Component {
     this.context.router.push(`/album/${nextAlbum._id}`)
   }
 
+  $getExif(exif) {
+    if (!exif || !exif.image || !exif.exif) return null
+
+    return (
+      <div className={styles.mainExif}>
+        <span><Icon name="camera_alt"/>{exif.image.Make + ' ' + exif.image.Model}</span>
+        <span><Icon name="camera"/> f/{exif.exif.FNumber || 'unknown'}</span>
+        <span><Icon name="timer"/> S {(1 / exif.exif.ExposureTime) || 'unknown'}</span>
+        <span><Icon name="wb_incandescent"/> ISO {exif.exif.ISO || 'unknown'}</span>
+        <span><Icon name="lens"/>{exif.exif.LensModel || 'unknown'}</span>
+      </div>
+    )
+  }
+
   $renderResoures(album) {
     if (!album) return null
 
@@ -46,12 +60,7 @@ export default class Album extends Component {
           <div className={styles.infoBox}>
             <h2>{res.name}</h2>
             {res.descritpion ? <p>{res.descritpion}</p> : null}
-            <div className={styles.mainExif}>
-              <span><Icon name="camera_alt"/> Panasonic GH4</span>
-              <span><Icon name="camera"/> f/8</span>
-              <span><Icon name="timer"/> S 100</span>
-              <span><Icon name="wb_incandescent"/> ISO 200</span>
-            </div>
+            {this.$getExif(res.exif)}
           </div>
         </div>
       )
