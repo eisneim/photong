@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 import styles from './Album.scss'
 import * as actions from '../actionCreators'
 
+const debug = require('debug')('ph:Album')
+
 function mapStateToProps(state) {
   return {
     albums: state.albums,
@@ -15,10 +17,23 @@ function mapStateToProps(state) {
 
 @connect(mapStateToProps, dispatch => ({ dispatch }))
 export default class Album extends Component {
+
+  static contextTypes = {
+    router: React.PropTypes.object,
+  }
+
   $requestAlbum(albumId) {
     setTimeout(()=> {
       this.props.dispatch(actions.$getAlbum(albumId))
     }, 0)
+  }
+
+  jumpTo(index) {
+    const { albums } = this.props
+    const nextAlbum = albums[index]
+    // debug('this.context', this.context)
+    debug('nextAlbum', nextAlbum)
+    this.context.router.push(`/album/${nextAlbum._id}`)
   }
 
   $renderResoures(album) {
@@ -49,7 +64,10 @@ export default class Album extends Component {
       return <span>Loading...</span>
     const { albumId } = params
     /* eslint-disable eqeqeq */
-    const album = albums.find(a => a._id == albumId)
+    const index = albums.findIndex(a => a._id == albumId)
+    const isLast = index >= albums.length - 1
+
+    const album = albums[index]
     if (!album || typeof album.resources[0] === 'string') {
       this.$requestAlbum(albumId)
       return <span>Loading...</span>
@@ -58,8 +76,14 @@ export default class Album extends Component {
     return (
       <div className={styles.root}>
         { this.$renderResoures(album) }
-        <FABButton ripple className={styles.prevBtn} fab><Icon name="chevron_left"/></FABButton>
-        <FABButton ripple className={styles.nextBtn} fab><Icon name="chevron_right"/></FABButton>
+        {
+          index > 0 ?
+          <FABButton onClick={() => this.jumpTo(index - 1)} ripple className={styles.prevBtn} fab><Icon name="chevron_left"/></FABButton> :
+          null
+        }
+        {isLast ? null :
+          <FABButton onClick={() => this.jumpTo(index + 1)} ripple className={styles.nextBtn} fab><Icon name="chevron_right"/></FABButton>
+        }
       </div>
     )
   }
