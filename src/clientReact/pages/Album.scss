@@ -44,9 +44,16 @@
   left: 0;
   color: #dbdbdb;
   padding: 15px 20px;
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.3), rgba(0,0,0,0) );
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0) );
+  background-size: 30px 200px;
+  background-position: 0 80px;
+  background-repeat: repeat-x;
+  transition: background-position 0.3s ease-out;
   h2 {
     margin-bottom: 0.2em;
+  }
+  &:hover {
+    background-position: 0 0;
   }
 }
 .mainExif {
@@ -58,6 +65,21 @@
       font-size: 16px;
       top: 2px;
       // margin-right: 5px;
+    }
+  }
+}
+
+.resourceMenu {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  :global{
+    .mdl-button {
+      color: #fff;
+      background-color: rgba(0,0,0,0.3);
+      &:hover {
+        background-color: rgba(0,0,0,0.1);
+      }
     }
   }
 }

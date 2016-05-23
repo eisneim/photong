@@ -16,6 +16,8 @@ export default class App extends Component {
           <Navigation>
             <Link to="/about">about</Link>
             <Link to="/manage">manage</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/manage">Manage</Link>
           </Navigation>
         </Drawer>
         <Content >

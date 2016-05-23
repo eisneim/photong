@@ -1,7 +1,9 @@
 // import { Link } from 'react-router'
 import React, { Component } from 'react'
 import FABButton from 'react-mdl/lib/FABButton'
-import Icon from 'react-mdl/lib/icon'
+import Icon from 'react-mdl/lib/Icon'
+import IconButton from 'react-mdl/lib/IconButton'
+import Menu, { MenuItem } from 'react-mdl/lib/menu'
 import { connect } from 'react-redux'
 import styles from './Album.scss'
 import * as actions from '../actionCreators'
@@ -56,6 +58,15 @@ export default class Album extends Component {
     return album.resources.map(res => {
       return (
         <div key={res._id} className={styles.imgWraper}>
+          <div className={styles.resourceMenu}>
+            <IconButton name="more_vert" id={'menu' + res._id}/>
+            <Menu target={'menu' + res._id} align="right">
+              <MenuItem>Some Action</MenuItem>
+              <MenuItem>Another Action</MenuItem>
+              <MenuItem disabled>Disabled Action</MenuItem>
+              <MenuItem>Yet Another Action</MenuItem>
+            </Menu>
+          </div>
           <img className="mdl-shadow--4dp" src={res.src}/>
           <div className={styles.infoBox}>
             <h2>{res.name}</h2>
