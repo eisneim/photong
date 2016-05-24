@@ -11,8 +11,6 @@ export default function createAppStore(app) {
       'lastSaved': 0,
       'lastModified': 0,
       'idCount': 0,
-      'token': 'photongToken',
-      'username': 'photong',
     },
     'albums': [
      /*
@@ -43,7 +41,9 @@ export default function createAppStore(app) {
   const defaultState = dbState.meta ? dbState : initState
   if (!defaultState.resources) defaultState.resources = {}
 
-  debug('defaultState:', defaultState)
+  defaultState.meta.username = app.config.username
+  defaultState.meta.token = app.config.token
+  debug('defaultState.meta:', defaultState.meta)
 
   const store = createStore(createReducers(app), defaultState)
   store.dispatchAsyc = action => setTimeout(() => store.dispatch(action), 0)

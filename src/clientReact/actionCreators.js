@@ -1,6 +1,7 @@
 import * as request from './utils/util.request.js'
 import assert from 'assert'
 
+// -------------------- album actions -----------------
 export function $getAlbums() {
   return {
     type: '$GET_ALBUMS',
@@ -14,5 +15,22 @@ export function $getAlbum(id) {
   return {
     type: '$GET_ALBUM',
     promise: request.$get('/albums/' + id),
+  }
+}
+
+
+// -------------------- meat actions -----------------
+export function $login(creadential) {
+  return {
+    type: '$LOGIN',
+    payload: creadential,
+    promise: request.$post('/admin/login', creadential),
+  }
+}
+
+export function $logout() {
+  return {
+    type: '$LOGOUT',
+    payload: null,
   }
 }

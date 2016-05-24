@@ -15,8 +15,10 @@ export default function regRoutes(app) {
 
   // just a simple check
   async function authCheck(ctx, next) {
-    const { token } = app.config
-    if (ctx.query.token === token || ctx.request.body.token === token || ctx.header.token === token)
+    const { token, username } = app.config
+    if ((ctx.query.token === token || ctx.request.body.token === token || ctx.header.token === token) &&
+      (ctx.query.username === username || ctx.header.username === username)
+    )
       return await next()
 
     ctx.status = 401

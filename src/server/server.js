@@ -7,12 +7,12 @@ import setConfig from './config'
 const debug = require('debug')('ph:server')
 
 const app = new koa()
+app.config = setConfig(app)
+
 const { store, saveStore, saveStoreAsync } = createAppStore(app)
 app.store = app.context.store = store
 app.saveStore = app.context.saveStore = saveStore
 app.saveStoreAsync = app.context.saveStoreAsync = saveStoreAsync
-
-app.config = setConfig(app)
 
 // register koa middlewares
 middlewares(app)

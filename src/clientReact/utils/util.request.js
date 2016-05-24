@@ -5,17 +5,21 @@
  * 3. atuo start loading bar and hide if when done
  * 4. http error / app error notify
  */
+const debug = require('debug')('ph:request')
 
 /* eslint-disable no-console */
 import { defaultCache } from './util.clientCache.js'
 import { notify, loader } from './util.notify.js'
 import { handleHttpError } from './util.errorHandler.js'
+import { CREADENTIAL_KEY } from '../_constants'
 // import { getToken } from '../services/svc.clientAuthStore.js'
 function getToken() {
-  return 'sss'
+  const cred = window.localStorage.getItem(CREADENTIAL_KEY)
+  if (!cred || cred === 'undefined' || cred === 'null') return {}
+
+  return JSON.parse(cred)
 }
 
-const debug = require('debug')('ph:request')
 // TODO: make this as a Queue
 var requestingUrl = null
 
@@ -46,9 +50,10 @@ function responseParser(response) {
 function getFetchOption(method = 'GET') {
   return {
     method,
-    headers: {
-      Authorization: 'Bearer ' + getToken(),
-    },
+    // headers: {
+    //   Authorization: 'Bearer ' + getToken(),
+    // },
+    headers: Object.assign({}, getToken()),
     credentials: 'same-origin', // append cookie
   }
 }

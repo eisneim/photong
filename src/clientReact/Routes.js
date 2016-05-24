@@ -4,11 +4,12 @@ import { Router, Route, useRouterHistory, IndexRoute } from 'react-router'
 import { createHistory } from 'history'
 import { syncHistoryWithStore } from 'react-router-redux'
 
+import App from './pages/App'
 import Home from './pages/Home'
 import About from './pages/About'
 import Album from './pages/Album'
 import Login from './pages/Login'
-import App from './pages/App'
+import Manage from './pages/Manage'
 
 
 export default function AppFn(ctx) {
@@ -27,6 +28,7 @@ export default function AppFn(ctx) {
           <Route path="/about" component={About}/>
           <Route path="/album/:albumId" component={Album}/>
           <Route path="/login" component={Login}/>
+          <Route path="/manage" component={Manage}/>
         </Route>
       </Router>
     </Provider>

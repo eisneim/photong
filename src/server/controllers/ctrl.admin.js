@@ -15,12 +15,17 @@ export default function adminCtrl(app) {
 
 
   async function login(state, ctx) {
+    const { username, token } = app.config
+    const { body } = ctx.request
+    debug('posted body:', body)
+    if (username !== body.username || token !== body.token) {
+      return ctx.json({
+        status: 401,
+        message: 'invalid username or token',
+      })
+    }
 
-    const p = new Promise((resolve) => {
-      setTimeout(() => resolve(true), 1000)
-    })
-    await p
-    ctx.body = 'login'
+    ctx.json(null, 'success')
   }
 
   function logout(state, ctx) {

@@ -1,6 +1,9 @@
 import { createStore, applyMiddleware } from 'redux'
 import { logger, requestPromise, readyStatePromise, thunk } from './middlewares'
 import { routerReducer } from 'react-router-redux'
+import { CREADENTIAL_KEY } from './_constants'
+// import { notify } from './utils/util.notify'
+const debug = require('debug')('ph:store')
 /* eslint-disable eqeqeq */
 function reducerWraper(handlers, state = {}, action, ctx) {
   // store has not been initialized, do nothing
@@ -15,6 +18,24 @@ function reducerWraper(handlers, state = {}, action, ctx) {
 }
 
 const metaHandlers = {
+  $LOGIN(meta, creadential, ctx, action) {
+    if (!action.ready) return meta
+    debug(action.result, creadential)
+    const { err } = action.result
+    if (err || action.error) {
+      return meta
+    }
+
+    window.localStorage.setItem(CREADENTIAL_KEY, JSON.stringify(creadential))
+    meta.isAuthenticated = true
+    return meta
+  },
+
+  $LOGOUT(meta) {
+    window.localStorage.setItem(CREADENTIAL_KEY, '')
+    meta.isAuthenticated = false
+    return meta
+  },
 
 }
 
@@ -74,12 +95,15 @@ export function regReducer(ctx) {
 }
 
 export default function makeStore(ctx, albums) {
+  const creadential = window.localStorage.getItem(CREADENTIAL_KEY)
+
   const defaultState = {
     meta: {
       token: null,
       username: null,
       lastModified: 0,
       lastSaved: 0,
+      isAuthenticated: creadential && creadential !== 'undefined',
     },
     albums: albums,
     resources: {},
