@@ -1,3 +1,97 @@
+@import "SCSS/color-palette.scss";
+
 .root {
+  padding-top: 50px;
+  height: 100%;
+  // background: url('PUB/img/about.jpg') center / cover;
+}
+
+.mainWraper {
+  padding-right: 30px;
+  // main {
+  //   padding-top: 20px;
+  // }
+}
+
+.menu {
+  padding-top: 50px;
+  width: 200px;
+}
+
+.menuItem {
+  text-align: left;
+  height: 50px;
+  padding-left: 15px;
+  padding-top: 8px;
+  display: inline-block;
+  width: 100%;
+  padding-left: 50px;
+  color: #666;
+  // color: #efefef;
+  // padding: 10px 0;
+  :global(.material-icons) {
+    margin-right: 5px;
+  }
+  &.active {
+    color: map-get($color-pink, '400');
+    background-color: rgba(0,0,0,0.1);
+  }
+}
+.routeCard {
+  width: 100%;
+  // max-width: 900px;
+  :global(.mdl-card__supporting-text) {
+    min-height: 450px;
+  }
+}
+
+
+@media screen and (max-width: 1200px) {
+
+}
+
+@media screen and (max-width: 768px) {
+  .mainWraper {
+    padding-right: 10px;
+  }
+  .menu {
+    width: 150px;
+  }
+  .menuItem {
+    padding-left: 5px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .root {
+    padding-top: 0;
+  }
+  .mainWraper {
+    display: block;
+    padding: 0 10px;
+  }
+  .menu {
+    width: 100%;
+    padding: 0;
+  }
+  .menuItem {
+    text-align: center;
+    padding-left: 0;
+    width: 33.33%;
+  }
+  .routeCard {
+    :global(.mdl-card__supporting-text) {
+      min-height: 200px;
+    }
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .menuItem {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 480px) {
 
 }
