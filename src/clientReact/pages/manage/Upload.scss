@@ -2,6 +2,17 @@
   width: 100%;
   &.active {
     background-color: #aaa;
+    .dropzone {
+      background-color: #aaa;
+    }
   }
+}
 
+.dropzone {
+  background: #efefef;
+  border: dashed 2px #ddd;
+  width: 95%;
+  width: calc(100% - 30px);
+  height: 200px;
+  margin: 0 auto;
 }

@@ -58,7 +58,9 @@ export default class Upload extends Component {
         onDragEnter={this._onDragEnter}
         onDragLeave={this._onDragLeave}
         onDrop={this._onDrop}>
-        <CardTitle>ahhahahah</CardTitle>
+        <CardTitle>Drop your photoes to upload</CardTitle>
+        <div className={styles.dropzone}>
+        </div>
         <CardActions>
           <Button>sdfs</Button>
         </CardActions>
