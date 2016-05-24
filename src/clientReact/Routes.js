@@ -28,7 +28,10 @@ export default function AppFn(ctx) {
           <Route path="/about" component={About}/>
           <Route path="/album/:albumId" component={Album}/>
           <Route path="/login" component={Login}/>
-          <Route path="/manage" component={Manage}/>
+          <Route path="/manage" component={Manage} onEnter={(nextState, replace) => {
+            const isAuthenticated = ctx.store.getState().meta.isAuthenticated
+            if (!isAuthenticated) replace('/login')
+          }}/>
         </Route>
       </Router>
     </Provider>

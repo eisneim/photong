@@ -11,7 +11,6 @@ function mapStateToProps(state) {
 }
 
 @connect(mapStateToProps, dispatch => ({ dispatch }))
-
 export default class App extends Component {
 
   static contextTypes = {
