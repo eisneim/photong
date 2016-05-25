@@ -3,7 +3,7 @@ import reactDom from 'react-dom'
 import Icon from 'react-mdl/lib/Icon'
 import Button from 'react-mdl/lib/Button'
 import { notify } from '../../utils/util.notify.js'
-// import TextField from 'react-mdl/lib/TextField'
+import TextField from 'react-mdl/lib/TextField'
 // import { Link } from 'react-router'
 import { CardActions } from 'react-mdl/lib/Card'
 import styles from './Upload.scss'
@@ -48,7 +48,7 @@ export default class Upload extends Component {
     return false
   }
 
-  _onDragLeave = (e) => {
+  _onDragLeave = () => {
     this.$base.classList.remove(styles.active)
     // debug('dragLeave', e)
   }
@@ -90,6 +90,38 @@ export default class Upload extends Component {
     this.setState({
       selectedFiles: (this.state.selectedFiles || []).concat(filesArray),
     })
+  }
+
+  formFiled = field => e => {
+    if (!this.__formData) this.__formData = {}
+    this.__formData[field] = e.target.value
+  }
+
+  _submit = () => {
+    const { name } = this.__formData
+    if (name && name.length > 50)
+      return notify.error('Album name might not longer thang 50 characters')
+
+
+  }
+
+  $form() {
+    return (
+      <form>
+        <TextField
+          floatingLabel
+          onChange={this.formFiled('name')}
+          label="Album Name" />
+        <TextField
+          floatingLabel
+          onChange={this.formFiled('tags')}
+          label="Tags" />
+        <TextField
+          floatingLabel
+          onChange={this.formFiled('tags')}
+          label="Tags" />
+      </form>
+    )
   }
 
   render() {
