@@ -15,6 +15,7 @@ export default function createAppStore(app) {
     'albums': [
      /*
       name: String,
+      tags: [String],
       description: String,
       _id: String,
       lastModified: Date,
