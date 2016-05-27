@@ -39,3 +39,14 @@
   width: 0;
   height:0;
 }
+.form {
+  padding: 0 20px;
+  :global(.mdl-textfield) {
+    display: block;
+    max-width: 300px;
+  }
+}
+
+
+
+

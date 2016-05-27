@@ -101,13 +101,18 @@ export default class Upload extends Component {
     const { name } = this.__formData
     if (name && name.length > 50)
       return notify.error('Album name might not longer thang 50 characters')
+    const formData = new FormData()
+    Object.keys(this.__formData).forEach(key => {
+      formData.append(key, this.__formData[key], key === 'resources' ? 'resources' : undefined)
+    })
 
+    debug('formData:', this.__formData, formData)
 
   }
 
   $form() {
     return (
-      <form>
+      <form className={styles.form}>
         <TextField
           floatingLabel
           onChange={this.formFiled('name')}
@@ -115,11 +120,17 @@ export default class Upload extends Component {
         <TextField
           floatingLabel
           onChange={this.formFiled('tags')}
-          label="Tags" />
+          label="Tags(seperate by comma or space)" />
         <TextField
           floatingLabel
-          onChange={this.formFiled('tags')}
-          label="Tags" />
+          type="password"
+          onChange={this.formFiled('token')}
+          label="password(is protected? optioanl)" />
+        <TextField
+          floatingLabel
+          rows={3}
+          onChange={this.formFiled('descritpion')}
+          label="descritpion" />
       </form>
     )
   }
@@ -150,8 +161,10 @@ export default class Upload extends Component {
             }
           </div>
         </div>
-        <CardActions>
-          <Button>sdfs</Button>
+        { len > 0 ? this.$form() : null }
+        <CardActions data-layout="row">
+          <span data-flex/>
+          <Button colored>Submit</Button>
         </CardActions>
       </div>
     )
