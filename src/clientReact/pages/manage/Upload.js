@@ -7,21 +7,20 @@ import TextField from 'react-mdl/lib/TextField'
 // import { Link } from 'react-router'
 import { CardActions } from 'react-mdl/lib/Card'
 import styles from './Upload.scss'
+import * as actions from '../../actionCreators'
 
 const debug = require('debug')('ph:Upload')
 
-// import { connect } from 'react-redux'
-
-// function mapStateToProps(state) {
-//   return {
-//     meta: state.meta,
-//     albums: state.albums,
-//   }
-// }
+import { connect } from 'react-redux'
+function mapStateToProps(state) {
+  return {
+    meta: state.meta,
+  }
+}
 
 const MAX_FILE_COUNT = 50
 
-// @connect(mapStateToProps, dispatch => ({ dispatch }))
+@connect(mapStateToProps, dispatch => ({ dispatch }))
 export default class Upload extends Component {
 
   // static contextTypes = {
@@ -103,11 +102,19 @@ export default class Upload extends Component {
       return notify.error('Album name might not longer thang 50 characters')
     const formData = new FormData()
     Object.keys(this.__formData).forEach(key => {
-      formData.append(key, this.__formData[key], key === 'resources' ? 'resources' : undefined)
+      formData.append(key, this.__formData[key])
+    })
+    this.state.selectedFiles.forEach((file, index) => {
+      formData.append('resources_' + index, file)
     })
 
-    debug('formData:', this.__formData, formData)
+    for (var key of formData.keys()) {
+      console.log(key)
+      console.log(formData.get(key))
+    }
 
+    debug('formData:', this.__formData)
+    this.props.dispatch(actions.$upload(formData))
   }
 
   $form() {
@@ -164,7 +171,10 @@ export default class Upload extends Component {
         { len > 0 ? this.$form() : null }
         <CardActions data-layout="row">
           <span data-flex/>
-          <Button colored>Submit</Button>
+          { len > 0 ?
+            <Button colored raised onClick={this._submit}>Submit</Button> :
+            null
+          }
         </CardActions>
       </div>
     )

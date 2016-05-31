@@ -18,6 +18,17 @@ export function $getAlbum(id) {
   }
 }
 
+export function $upload(formData) {
+  return {
+    type: '$UPLOAD',
+    promise: request.$post('/admin/resources/', formData, {
+      // header: {
+      //   contentType: 'multipart/form-data',
+      // },
+    }),
+  }
+}
+
 
 // -------------------- meat actions -----------------
 export function $login(creadential) {

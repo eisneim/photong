@@ -47,13 +47,13 @@ function responseParser(response) {
   }
 }
 
-function getFetchOption(method = 'GET') {
+function getFetchOption(method = 'GET', headerOption = {}) {
   return {
     method,
     // headers: {
     //   Authorization: 'Bearer ' + getToken(),
     // },
-    headers: Object.assign({}, getToken()),
+    headers: Object.assign({}, headerOption, getToken()),
     credentials: 'same-origin', // append cookie
   }
 }
@@ -161,7 +161,7 @@ export function $post(url, data, opt = {}) {
   // start loading animation by default
   if (!opt.noLoading) loader.load()
 
-  var fetchOption = getFetchOption('POST')
+  var fetchOption = getFetchOption('POST', opt.header)
   if (typeof data === 'object' && !(data instanceof FormData)) {
     fetchOption.headers['Content-Type'] = 'application/json'
     fetchOption.body = JSON.stringify(data)

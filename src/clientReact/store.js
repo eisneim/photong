@@ -76,6 +76,25 @@ const albumHandlers = {
     return state
   },
 
+  $UPLOAD(state, payload, ctx, action) {
+    const appState = ctx.store.getState()
+    if (!action.ready) {
+      appState.meta.uploadingAlbum = true
+      return state
+    }
+    // stop loading animation
+    appState.meta.uploadingAlbum = false
+
+    const { resources, album } = action.result.data
+    if (!Array.isArray(appState.resources)) {
+      appState.resources = resources
+    } else {
+      appState.resources = appState.resources.concat(resources)
+    }
+    // add this to new album
+    state.push(album)
+    return state
+  },
 }
 
 const resHandlers = {

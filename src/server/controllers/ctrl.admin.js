@@ -126,7 +126,7 @@ export default function adminCtrl(app) {
       const newAlbum = newAlbumFn(state, albumData, albumId)
 
       ctx.json(null, {
-        album: newAlbum,
+        album: Object.assign({}, newAlbum, { cover: resources[0].thumb }),
         resources,
       })
       // ctx.modified()
