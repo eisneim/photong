@@ -81,10 +81,9 @@ export default function adminCtrl(app) {
 
 
   async function newResource(state, ctx) {
-    const { body, files } = ctx.req
+    const { files } = ctx.req
     if (!files || files.length === 0)
       return ctx.json('no file specified!')
-    const albumId = state.meta.idCount++
 
     try {
       const imageInfos = await batchParse(files)
@@ -113,28 +112,41 @@ export default function adminCtrl(app) {
         state.resources[res._id] = res
       })
 
-      const albumData = {
-        resources: resources.map(r => r._id),
-        tags: body.tags ? body.tags.split(',') : [],
-        cover: resources[0]._id,
-        name: body.name,
-        description: body.description,
-        token: body.token,
-      }
-
-      if (!albumData.name) albumData.name = yyyymmdd()
-      const newAlbum = newAlbumFn(state, albumData, albumId)
-
-      ctx.json(null, {
-        album: Object.assign({}, newAlbum, { cover: resources[0].thumb }),
-        resources,
-      })
-      // ctx.modified()
-      app.saveStoreAsync(50)
+      ctx.json(null, resources)
     } catch (e) {
       ctx.json(e)
     }
   }
+
+  // async function newResource(state, ctx) {
+  //   const { body } = ctx.req
+
+  //   const albumId = state.meta.idCount++
+
+  //   try {
+
+  //     const albumData = {
+  //       resources: resources.map(r => r._id),
+  //       tags: body.tags ? body.tags.split(',') : [],
+  //       cover: resources[0]._id,
+  //       name: body.name,
+  //       description: body.description,
+  //       token: body.token,
+  //     }
+
+  //     if (!albumData.name) albumData.name = yyyymmdd()
+  //     const newAlbum = newAlbumFn(state, albumData, albumId)
+
+  //     ctx.json(null, {
+  //       album: Object.assign({}, newAlbum, { cover: resources[0].thumb }),
+  //       resources,
+  //     })
+  //     // ctx.modified()
+  //     app.saveStoreAsync(50)
+  //   } catch (e) {
+  //     ctx.json(e)
+  //   }
+  // }
 
   function deleteResource(state, ctx) {
     const { resoureceId } = ctx.params

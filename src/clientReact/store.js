@@ -37,6 +37,31 @@ const metaHandlers = {
     return meta
   },
 
+  $UPLOAD(meta, payload, ctx, action) {
+    const appState = ctx.store.getState()
+    if (!action.ready) {
+      meta.uploading = true
+      return meta
+    }
+    // stop loading animation
+    meta.uploading = false
+
+    const resources = action.result.data
+    debug('upload susccess', resources)
+
+    if (!Array.isArray(appState.resources)) {
+      appState.resources = resources
+    } else {
+      appState.resources = appState.resources.concat(resources)
+    }
+
+    meta.uploadTempFiles = meta.uploadTempFiles ?
+      meta.uploadTempFiles.concat(resources) : resources
+
+    ctx.store.dispatchAsync({ type: 'JUST_A_REFRESH' }, 10)
+    return meta
+  },
+
 }
 
 const albumHandlers = {
@@ -76,25 +101,6 @@ const albumHandlers = {
     return state
   },
 
-  $UPLOAD(state, payload, ctx, action) {
-    const appState = ctx.store.getState()
-    if (!action.ready) {
-      appState.meta.uploadingAlbum = true
-      return state
-    }
-    // stop loading animation
-    appState.meta.uploadingAlbum = false
-
-    const { resources, album } = action.result.data
-    if (!Array.isArray(appState.resources)) {
-      appState.resources = resources
-    } else {
-      appState.resources = appState.resources.concat(resources)
-    }
-    // add this to new album
-    state.push(album)
-    return state
-  },
 }
 
 const resHandlers = {
@@ -131,7 +137,9 @@ export default function makeStore(ctx, albums) {
   const createStoreEnhanced = applyMiddleware(logger, requestPromise, readyStatePromise, thunk)(createStore)
 
   const store = createStoreEnhanced(regReducer(ctx), defaultState)
-  store.dispatchAsync = time => setTimeout(store.dispatch, time || 0)
+  store.dispatchAsync = (action, time) => setTimeout(() => {
+    store.dispatch(action)
+  }, time || 0)
 
   return store
 }

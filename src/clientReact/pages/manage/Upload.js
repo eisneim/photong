@@ -29,7 +29,7 @@ export default class Upload extends Component {
   constructor() {
     super()
     this.state = {
-      selectedFiles: null,
+      uploadTempFiles: null,
     }
   }
 
@@ -65,29 +65,36 @@ export default class Upload extends Component {
   }
 
   _fileSelected = () => {
-    this.addFiles(Array.prototype.slice.call(this.$fileInput.files))
+    this.addFiles(this.$fileInput.files)
   }
 
   addFiles(files) {
     debug('add files:', files)
-    const { selectedFiles } = this.state
-    // should check duplication and limit file type
-    const filesArray = Array.prototype.slice.call(files)
-    if (selectedFiles) {
-      for (var ii = 0; ii < files.length; ii++) {
-        for (var jj = 0; jj < selectedFiles.length; jj++) {
-          const newFile = files[ii]
-          const oldFile = selectedFiles[jj]
-          if (newFile.name === oldFile.name && newFile.size === oldFile.size) {
-            const index = indexOf(filesArray.newFile)
-            filesArray.splice(index, 1)
-          }
+    if (files.length === 0)
+      return
+    const { uploadTempFiles } = this.state
+
+    this.$base.classList.remove(styles.active)
+
+    const formData = new FormData()
+    for (var ii = 0; ii < files.length; ii++) {
+      formData.append('resources', files[ii], files[ii].name || ('file' + Math.random()))
+      if (!uploadTempFiles)
+        continue
+      // should check duplication and limit file type
+      for (var jj = 0; jj < uploadTempFiles.length; jj++) {
+        const newFile = files[ii]
+        const oldFile = uploadTempFiles[jj]
+        if (newFile.name === oldFile.name && newFile.size === oldFile.size) {
+          return notify.error(`repeated file: ${newFile.name}, please select again`)
         }
       }
     }
 
+    this.props.dispatch(actions.$upload(formData))
+    const filesArray = Array.prototype.slice.call(files)
     this.setState({
-      selectedFiles: (this.state.selectedFiles || []).concat(filesArray),
+      uploadTempFiles: uploadTempFiles ? uploadTempFiles.concat(filesArray) : filesArray,
     })
   }
 
@@ -104,17 +111,11 @@ export default class Upload extends Component {
     Object.keys(this.__formData).forEach(key => {
       formData.append(key, this.__formData[key])
     })
-    this.state.selectedFiles.forEach((file, index) => {
-      formData.append('resources_' + index, file)
-    })
 
-    for (var key of formData.keys()) {
-      console.log(key)
-      console.log(formData.get(key))
-    }
 
     debug('formData:', this.__formData)
-    this.props.dispatch(actions.$upload(formData))
+    debug('should create a new album')
+    // this.props.dispatch(actions.$upload(formData))
   }
 
   $form() {
@@ -143,8 +144,8 @@ export default class Upload extends Component {
   }
 
   render() {
-    const { selectedFiles } = this.state
-    const len = selectedFiles ? selectedFiles.length : 0
+    const { uploadTempFiles } = this.state
+    const len = uploadTempFiles ? uploadTempFiles.length : 0
 
     return (
       <div className={styles.root}
