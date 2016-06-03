@@ -93,11 +93,6 @@ export default class Upload extends Component {
     }
 
     this.props.dispatch(actions.$upload(formData))
-      .then(data => {
-        debug('promise resolved:', data)
-        this.__formData = {}
-        this.refs.albumForm.reset()
-      })
     // const filesArray = Array.prototype.slice.call(files)
     // this.setState({
     //   uploadTempFiles: uploadTempFiles ? uploadTempFiles.concat(filesArray) : filesArray,
@@ -117,7 +112,12 @@ export default class Upload extends Component {
     this.__formData.resources = uploadTempFiles.map(f => f._id)
 
     debug('formData:', this.__formData)
-    this.props.dispatch(actions.$createAlbum(this.__formData))
+    this.props.dispatch(
+      actions.$createAlbum(this.__formData, () => {
+        this.__formData = {}
+        this.refs.albumForm.reset()
+      })
+    )
   }
 
   $form() {

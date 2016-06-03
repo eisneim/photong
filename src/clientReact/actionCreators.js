@@ -18,9 +18,10 @@ export function $getAlbum(id) {
   }
 }
 
-export function $createAlbum(data) {
+export function $createAlbum(data, payload) {
   return {
     type: '$CREATE_ALBUM',
+    payload,
     promise: request.$post('/admin/albums/', data),
   }
 }
@@ -41,9 +42,10 @@ export function $logout() {
   }
 }
 
-export function $upload(formData) {
+export function $upload(formData, payload) {
   return {
     type: '$UPLOAD',
+    payload,
     promise: request.$post('/admin/resources/', formData),
   }
 }

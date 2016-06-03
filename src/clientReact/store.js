@@ -60,6 +60,11 @@ const metaHandlers = {
 
     return Object.assign({}, meta)
   },
+  $CREATE_ALBUM(meta, payload, ctx, action) {
+    if (!action.ready)
+      return meta
+    return Object.assign({}, meta, { uploadTempFiles: null })
+  },
 
 }
 
@@ -100,14 +105,18 @@ const albumHandlers = {
     return state.slice()
   },
   $CREATE_ALBUM(albums, payload, ctx, action) {
-    const appState = ctx.store.getState()
+    // const appState = ctx.store.getState()
     if (!action.ready) {
       return albums
     }
     const newAlbum = action.result.data
 
     albums.unshift(newAlbum)
-    appState.meta = Object.assign({}, appState.meta, { uploadTempFiles: null })
+
+    if (typeof payload === 'function') {
+      debug('should invoke payload function')
+      payload()
+    }
 
     notify.success('susccessfully created an Album!')
     return albums.slice()
