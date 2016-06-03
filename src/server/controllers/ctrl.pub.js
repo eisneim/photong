@@ -9,8 +9,9 @@ export default function adminCtrl(app) {
       state.albums
         .sort((a, b) => b.lastModified - a.lastModified)
         .map(a => {
+          const res = state.resources[a.cover || a.resources[0]]
           const newAlbum = Object.assign({}, a, {
-            cover: state.resources[a.cover].thumb,
+            cover: res ? res.thumb : null,
             token: null,
             isProtected: Boolean(a.token),
           })

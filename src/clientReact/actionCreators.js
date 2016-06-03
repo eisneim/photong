@@ -18,13 +18,12 @@ export function $getAlbum(id) {
   }
 }
 
-export function $upload(formData) {
+export function $createAlbum(data) {
   return {
-    type: '$UPLOAD',
-    promise: request.$post('/admin/resources/', formData),
+    type: '$CREATE_ALBUM',
+    promise: request.$post('/admin/albums/', data),
   }
 }
-
 
 // -------------------- meat actions -----------------
 export function $login(creadential) {
@@ -39,5 +38,12 @@ export function $logout() {
   return {
     type: '$LOGOUT',
     payload: null,
+  }
+}
+
+export function $upload(formData) {
+  return {
+    type: '$UPLOAD',
+    promise: request.$post('/admin/resources/', formData),
   }
 }

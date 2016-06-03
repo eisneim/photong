@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { logger, requestPromise, readyStatePromise, thunk } from './middlewares'
 import { routerReducer } from 'react-router-redux'
 import { CREADENTIAL_KEY } from './_constants'
-// import { notify } from './utils/util.notify'
+import { notify } from './utils/util.notify'
 const debug = require('debug')('ph:store')
 /* eslint-disable eqeqeq */
 function reducerWraper(handlers, state = {}, action, ctx) {
@@ -58,8 +58,7 @@ const metaHandlers = {
     meta.uploadTempFiles = meta.uploadTempFiles ?
       meta.uploadTempFiles.concat(resources) : resources
 
-    ctx.store.dispatchAsync({ type: 'JUST_A_REFRESH' }, 10)
-    return meta
+    return Object.assign({}, meta)
   },
 
 }
@@ -77,7 +76,7 @@ const albumHandlers = {
       }
     })
     ctx.store.getState().meta.albumsLoaded = true
-    return state
+    return state.slice()
   },
 
   $GET_ALBUM(state, payload, ctx, action) {
@@ -98,9 +97,21 @@ const albumHandlers = {
       state.push(album)
     }
     appState.meta.requestingAlbum = false
-    return state
+    return state.slice()
   },
+  $CREATE_ALBUM(albums, payload, ctx, action) {
+    const appState = ctx.store.getState()
+    if (!action.ready) {
+      return albums
+    }
+    const newAlbum = action.result.data
 
+    albums.unshift(newAlbum)
+    appState.meta = Object.assign({}, appState.meta, { uploadTempFiles: null })
+
+    notify.success('susccessfully created an Album!')
+    return albums.slice()
+  },
 }
 
 const resHandlers = {

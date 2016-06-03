@@ -28,9 +28,9 @@ export default class Upload extends Component {
   // }
   constructor() {
     super()
-    this.state = {
-      uploadTempFiles: null,
-    }
+    // this.state = {
+    //   uploadTempFiles: null,
+    // }
   }
 
   componentDidMount() {
@@ -72,7 +72,8 @@ export default class Upload extends Component {
     debug('add files:', files)
     if (files.length === 0)
       return
-    const { uploadTempFiles } = this.state
+    // const { uploadTempFiles } = this.state
+    const { uploadTempFiles } = this.props.meta
 
     this.$base.classList.remove(styles.active)
 
@@ -92,10 +93,15 @@ export default class Upload extends Component {
     }
 
     this.props.dispatch(actions.$upload(formData))
-    const filesArray = Array.prototype.slice.call(files)
-    this.setState({
-      uploadTempFiles: uploadTempFiles ? uploadTempFiles.concat(filesArray) : filesArray,
-    })
+      .then(data => {
+        debug('promise resolved:', data)
+        this.__formData = {}
+        this.refs.albumForm.reset()
+      })
+    // const filesArray = Array.prototype.slice.call(files)
+    // this.setState({
+    //   uploadTempFiles: uploadTempFiles ? uploadTempFiles.concat(filesArray) : filesArray,
+    // })
   }
 
   formFiled = field => e => {
@@ -104,23 +110,19 @@ export default class Upload extends Component {
   }
 
   _submit = () => {
+    const { uploadTempFiles } = this.props.meta
     const { name } = this.__formData
     if (name && name.length > 50)
       return notify.error('Album name might not longer thang 50 characters')
-    const formData = new FormData()
-    Object.keys(this.__formData).forEach(key => {
-      formData.append(key, this.__formData[key])
-    })
-
+    this.__formData.resources = uploadTempFiles.map(f => f._id)
 
     debug('formData:', this.__formData)
-    debug('should create a new album')
-    // this.props.dispatch(actions.$upload(formData))
+    this.props.dispatch(actions.$createAlbum(this.__formData))
   }
 
   $form() {
     return (
-      <form className={styles.form}>
+      <form className={styles.form} ref="albumForm">
         <TextField
           floatingLabel
           onChange={this.formFiled('name')}
@@ -144,8 +146,10 @@ export default class Upload extends Component {
   }
 
   render() {
-    const { uploadTempFiles } = this.state
+    // const { uploadTempFiles } = this.state
+    const { uploadTempFiles } = this.props.meta
     const len = uploadTempFiles ? uploadTempFiles.length : 0
+    debug('should rerender upload page', this.props.meta)
 
     return (
       <div className={styles.root}

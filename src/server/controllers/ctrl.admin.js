@@ -45,7 +45,9 @@ export default function adminCtrl(app) {
       _id: id || state.meta.idCount++,
       lastModified: Date.now(),
     })
+
     if (!newAlbum.resources) newAlbum.resources = []
+    if (!newAlbum.cover) newAlbum.cover = data.resources[0]
     if (!newAlbum.tags) newAlbum.tags = []
 
     state.albums.push(newAlbum)
@@ -54,8 +56,13 @@ export default function adminCtrl(app) {
 
   function newAlbum(state, ctx) {
     const newAlbum = newAlbumFn(state, ctx.request.body)
-    ctx.modified()
-    ctx.json(null, newAlbum)
+    const { resources } = newAlbum
+    if (resources && resources[0] && typeof resources[0] !== 'string')
+      return json('resources must be array of resource id')
+
+    const firstRes = state.resources[newAlbum.resources[0]]
+    ctx.json(null, Object.assign({}, newAlbum, { cover: firstRes.thumb }))
+    app.saveStoreAsync(50)
   }
 
   function updateAlbum(state, ctx) {
@@ -113,6 +120,7 @@ export default function adminCtrl(app) {
       })
 
       ctx.json(null, resources)
+      app.saveStoreAsync(50)
     } catch (e) {
       ctx.json(e)
     }
