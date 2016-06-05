@@ -1,3 +1,4 @@
+import { getFileSize } from '../utils/util.common.js'
 // import { Link } from 'react-router'
 import React, { Component } from 'react'
 import FABButton from 'react-mdl/lib/FABButton'
@@ -61,10 +62,10 @@ export default class Album extends Component {
           <div className={styles.resourceMenu}>
             <IconButton name="more_vert" id={'menu' + res._id}/>
             <Menu target={'menu' + res._id} align="right">
-              <MenuItem>Some Action</MenuItem>
-              <MenuItem>Another Action</MenuItem>
-              <MenuItem disabled>Disabled Action</MenuItem>
-              <MenuItem>Yet Another Action</MenuItem>
+              <MenuItem><a href={res.original} target="_blank">Download Full Size({getFileSize(res.size)})</a></MenuItem>
+              <MenuItem>Remove From This Album</MenuItem>
+              <MenuItem>Full exif info</MenuItem>
+              <MenuItem disabled>Delete</MenuItem>
             </Menu>
           </div>
           <img className="mdl-shadow--4dp" src={res.src}/>
