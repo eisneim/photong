@@ -121,6 +121,12 @@ const albumHandlers = {
     notify.success('susccessfully created an Album!')
     return albums.slice()
   },
+  ALBUM_TOKEN(albums, { _id, token }) {
+    albums.forEach(a => {
+      if (a._id === _id) a.token = token
+    })
+    return albums.slice()
+  },
 }
 
 const resHandlers = {

@@ -147,7 +147,7 @@ export default class Upload extends Component {
 
   render() {
     // const { uploadTempFiles } = this.state
-    const { uploadTempFiles } = this.props.meta
+    const { uploadTempFiles, uploading } = this.props.meta
     const len = uploadTempFiles ? uploadTempFiles.length : 0
     debug('should rerender upload page', this.props.meta)
 
@@ -173,7 +173,7 @@ export default class Upload extends Component {
             }
           </div>
         </div>
-        { len > 0 ? this.$form() : null }
+        { len > 0 || uploading ? this.$form() : null }
         <CardActions data-layout="row">
           <span data-flex/>
           { len > 0 ?

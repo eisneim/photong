@@ -26,6 +26,13 @@ export function $createAlbum(data, payload) {
   }
 }
 
+// export function changeAlbumToken(_id, token) {
+//   return {
+//     type: 'ALBUM_TOKEN',
+//     payload: { _id, token },
+//   }
+// }
+
 // -------------------- meat actions -----------------
 export function $login(creadential) {
   return {
