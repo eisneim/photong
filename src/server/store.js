@@ -38,6 +38,11 @@ export default function createAppStore(app) {
      */
     },
   }
+
+  if (!fs.existsSync('../../db.json')) {
+    debug('db.json not exits, create a new one')
+    fs.writeFileSync('../../db.json', '{}')
+  }
   const dbState = require('../../db.json')
   const defaultState = dbState.meta ? dbState : initState
   if (!defaultState.resources) defaultState.resources = {}
