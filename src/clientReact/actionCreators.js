@@ -15,6 +15,7 @@ export function $getAlbum(id, token) {
   return {
     type: '$GET_ALBUM',
     promise: request.$get(`/albums/${id}?albumToken=${token}`),
+    params: { id, token },
   }
 }
 

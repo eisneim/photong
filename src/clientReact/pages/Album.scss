@@ -1,7 +1,10 @@
 .root {
   background-color: #2a2e39;
 }
-
+.errorBox {
+  padding: 10px;
+  color: rgb(255,64,129);
+}
 .prevBtn, .nextBtn {
   position: fixed;
   top: 45%;

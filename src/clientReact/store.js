@@ -86,15 +86,27 @@ const albumHandlers = {
 
   $GET_ALBUM(albums, payload, ctx, action) {
     const appState = ctx.store.getState()
-    if (!action.ready) {
+    const { result, ready, params } = action
+    if (!ready) {
       appState.meta.requestingAlbum = true
       return albums
     }
+    if (result.err) {
+      debug('encounter request err:, action.params', params)
+      albums.forEach(aa => {
+        if (aa._id === params.id) {
+          appState.meta.requestingAlbum = false
+          aa.requestingErr = result.err
+        }
+      })
+      return albums.slice()
+    }
 
-    const album = action.result.data
+    const album = result.data
     // to avoid dup request
     // album.isFresh = true
     album.authorized = true
+    album.requestingErr = null
     const index = albums.findIndex(p => p._id == album._id)
     album.cover = album.resources.find(r => r._id === album.cover).thumb
     if (index > -1) {

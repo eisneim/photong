@@ -7,6 +7,7 @@
  */
 const debug = require('debug')('ph:request')
 
+import fetch from 'isomorphic-fetch'
 /* eslint-disable no-console */
 import { defaultCache } from './util.clientCache.js'
 import { notify, loader } from './util.notify.js'

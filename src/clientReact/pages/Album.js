@@ -8,13 +8,16 @@ import Menu, { MenuItem } from 'react-mdl/lib/menu'
 import { connect } from 'react-redux'
 import styles from './Album.scss'
 import * as actions from '../actionCreators'
+import Button from 'react-mdl/lib/Button'
 
 const debug = require('debug')('ph:Album')
 
 function mapStateToProps(state) {
   return {
-    albums: state.albums,
+    albums: state.albums.slice(), // make sure it's always new
     requestingAlbum: state.meta.requestingAlbum,
+    requestingErr: state.meta.requestingErr,
+    isAuthed: state.meta.isAuthenticated,
   }
 }
 
@@ -55,6 +58,7 @@ export default class Album extends Component {
 
   $renderResoures(album) {
     if (!album) return null
+    const { isAuthed } = this.props
 
     return album.resources.map(res => {
       return (
@@ -63,9 +67,13 @@ export default class Album extends Component {
             <IconButton name="more_vert" id={'menu' + res._id}/>
             <Menu target={'menu' + res._id} align="right">
               <MenuItem><a href={res.original} target="_blank">Download Full Size({getFileSize(res.size)})</a></MenuItem>
-              <MenuItem>Remove From This Album</MenuItem>
               <MenuItem>Full exif info</MenuItem>
-              <MenuItem disabled>Delete</MenuItem>
+              { isAuthed ?
+                <span>
+                  <MenuItem>Remove From This Album</MenuItem>
+                  <MenuItem disabled>Delete</MenuItem>
+                </span>
+              : null}
             </Menu>
           </div>
           <img className="mdl-shadow--4dp" src={res.src}/>
@@ -81,14 +89,25 @@ export default class Album extends Component {
 
   render() {
     const { albums, params, requestingAlbum } = this.props
-    if (requestingAlbum)
-      return <span>Loading...</span>
     const { albumId } = params
     /* eslint-disable eqeqeq */
     const index = albums.findIndex(a => a._id == albumId)
+    const album = albums[index]
+
+    if (album.requestingErr) {
+      return <div className={styles.errorBox}>
+        <h3>{album.requestingErr}</h3>
+        <Button accent raised onClick={() => {
+          this.context.router.push('/')
+        }}>Go Back</Button>
+      </div>
+    }
+
+    if (requestingAlbum)
+      return <span>Loading...</span>
+
     const isLast = index >= albums.length - 1
 
-    const album = albums[index]
     if (!album || typeof album.resources[0] === 'string') {
       this.$requestAlbum(albums[index])
       return <span>Loading...</span>
