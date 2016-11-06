@@ -69,40 +69,40 @@ const metaHandlers = {
 }
 
 const albumHandlers = {
-  $GET_ALBUMS(state, payload, ctx, action) {
-    if (!action.ready) return state
+  $GET_ALBUMS(abs, payload, ctx, action) {
+    if (!action.ready) return abs
     const albums = action.result.data
     albums.forEach(a => {
-      const index = state.findIndex(p => p._id == a._id)
+      const index = abs.findIndex(p => p._id == a._id)
       if (index < 0) {
-        state.push(a)
+        abs.push(a)
       } else {
-        state[index] = a
+        abs[index] = a
       }
     })
     ctx.store.getState().meta.albumsLoaded = true
-    return state.slice()
+    return abs.slice()
   },
 
-  $GET_ALBUM(state, payload, ctx, action) {
+  $GET_ALBUM(albums, payload, ctx, action) {
     const appState = ctx.store.getState()
     if (!action.ready) {
       appState.meta.requestingAlbum = true
-      return state
+      return albums
     }
 
     const album = action.result.data
     // to avoid dup request
     // album.isFresh = true
-    const index = state.findIndex(p => p._id == album._id)
+    const index = albums.findIndex(p => p._id == album._id)
     album.cover = album.resources.find(r => r._id === album.cover).thumb
     if (index > -1) {
-      state[index] = album
+      albums[index] = album
     } else {
-      state.push(album)
+      albums.push(album)
     }
     appState.meta.requestingAlbum = false
-    return state.slice()
+    return albums.slice()
   },
   $CREATE_ALBUM(albums, payload, ctx, action) {
     // const appState = ctx.store.getState()
@@ -121,7 +121,7 @@ const albumHandlers = {
     notify.success('susccessfully created an Album!')
     return albums.slice()
   },
-  ALBUM_TOKEN(albums, { _id, token }) {
+  SET_ALBUM_TOKEN(albums, { _id, token }) {
     albums.forEach(a => {
       if (a._id === _id) a.token = token
     })

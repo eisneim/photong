@@ -111,7 +111,7 @@ var prodConfig = Object.assign({}, devConfig, {
   plugin: devConfig.plugins.slice(2),
 })
 
-prodConfig.plugins.push(new ExtractTextPlugin("photong.css"))
+prodConfig.plugins.push(new ExtractTextPlugin('photong.css'))
 
 
 module.exports = isProduction ? prodConfig : devConfig

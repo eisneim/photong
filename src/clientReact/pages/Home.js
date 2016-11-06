@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import styles from './Home.scss'
 import * as actions from '../actionCreators'
 
+const debug = require('debug')('ph:Home')
+
 function mapStateToProps(state) {
   return {
     albums: state.albums,
@@ -14,7 +16,7 @@ function mapStateToProps(state) {
 }
 
 
-@connect(mapStateToProps, dispatch => ({ dispatch }))
+@connect(mapStateToProps, actions)
 export default class Home extends Component {
 
   // constructor() {
@@ -24,7 +26,7 @@ export default class Home extends Component {
   //   }
   // }
   changeToken = id => e => {
-    actions.changeAlbumToken(id, e.target.value)
+    this.props.changeAlbumToken(id, e.target.value)
   }
 
   $renderAlbums(albums) {
@@ -48,7 +50,7 @@ export default class Home extends Component {
                   label="token"
                   data-flex
                   />
-                <IconButton name="check"/>
+                <IconButton name="check" />
               </div>
             </div> : null
           }

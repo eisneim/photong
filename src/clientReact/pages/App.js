@@ -38,7 +38,7 @@ export default class App extends Component {
             <Link to="/about">About</Link>
           </Navigation>
         </Header>
-        <Drawer title="Hellow">
+        <Drawer title="Navigation">
           <Navigation>
             <Link to="/about">about</Link>
             { isAuthenticated ? <Link to="/manage/upload">Manage</Link> : null }

@@ -18,16 +18,16 @@ function mapStateToProps(state) {
   }
 }
 
-@connect(mapStateToProps, dispatch => ({ dispatch }))
+@connect(mapStateToProps, actions)
 export default class Album extends Component {
 
   static contextTypes = {
     router: React.PropTypes.object,
   }
 
-  $requestAlbum(albumId) {
+  $requestAlbum(album) {
     setTimeout(()=> {
-      this.props.dispatch(actions.$getAlbum(albumId))
+      this.props.$getAlbum(album._id, album.token)
     }, 0)
   }
 
@@ -90,7 +90,7 @@ export default class Album extends Component {
 
     const album = albums[index]
     if (!album || typeof album.resources[0] === 'string') {
-      this.$requestAlbum(albumId)
+      this.$requestAlbum(albums[index])
       return <span>Loading...</span>
     }
 

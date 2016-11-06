@@ -10,11 +10,11 @@ export function $getAlbums() {
 }
 
 
-export function $getAlbum(id) {
+export function $getAlbum(id, token) {
   assert(id, '$getAlbum(id) id is requried')
   return {
     type: '$GET_ALBUM',
-    promise: request.$get('/albums/' + id),
+    promise: request.$get(`/albums/${id}?albumToken=${token}`),
   }
 }
 
@@ -26,12 +26,13 @@ export function $createAlbum(data, payload) {
   }
 }
 
-// export function changeAlbumToken(_id, token) {
-//   return {
-//     type: 'ALBUM_TOKEN',
-//     payload: { _id, token },
-//   }
-// }
+export function changeAlbumToken(_id, token) {
+  return {
+    type: 'SET_ALBUM_TOKEN',
+    payload: { _id, token },
+    meta: { ignoreLog: true },
+  }
+}
 
 // -------------------- meat actions -----------------
 export function $login(creadential) {
