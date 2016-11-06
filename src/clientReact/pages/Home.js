@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import React, { Component } from 'react'
-import TextField from 'react-mdl/lib/TextField'
+import TextField from 'react-mdl/lib/Textfield'
 import Icon from 'react-mdl/lib/Icon'
 import IconButton from 'react-mdl/lib/IconButton'
 import { connect } from 'react-redux'

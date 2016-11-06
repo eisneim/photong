@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Header, Navigation, Drawer, Content } from 'react-mdl/lib/layout'
+import { Layout, Header, Navigation, Drawer, Content } from 'react-mdl/lib/Layout'
 import FABButton from 'react-mdl/lib/FABButton'
 import Icon from 'react-mdl/lib/Icon'
 import { Link } from 'react-router'
