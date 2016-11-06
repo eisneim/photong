@@ -1,7 +1,8 @@
 /* eslint-disable no-multi-spaces */
 const debug = require('debug')('ph:routes')
 var router = require('koa-router')
-import send from 'koa-send'
+import fs from 'fs'
+// import send from 'koa-send'
 import serve from 'koa-static'
 import convert from 'koa-convert'
 import getAdminCtrl from './controllers/ctrl.admin'
@@ -10,6 +11,11 @@ import createMulterMiddeware from './utils/util.multer'
 
 export default function regRoutes(app) {
   debug('initialize router')
+  /**
+   * probably the worst code i'v ever write in node?
+   */
+  let indexHtml = fs.readFileSync(app.config.rootPath + '/public/root.html', 'utf-8')
+                    .replace('__replace__', JSON.stringify(app.config.client))
 
   const upload = createMulterMiddeware(app)
 
@@ -70,9 +76,10 @@ export default function regRoutes(app) {
 
   async function pageNotFound(ctx, next) {
     await next()
-    await send(ctx, 'index.html', {
-      root: app.config.rootPath + '/public',
-    })
+    // await send(ctx, 'index.html', {
+    //   root: app.config.rootPath + '/public',
+    // })
+    ctx.body = indexHtml
   }
   app.use(pageNotFound)
 }

@@ -2,13 +2,14 @@ var webpack = require('webpack')
 var path = require('path')
 // to extract text from boundle into seperate file, like style.css, common.css etc.
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var rootConfig = require('./_config.js')
 
 var isProduction = process.env.NODE_ENV === 'production'
 
 var devConfig = {
   entry: {
     'photong': [
-      'webpack-dev-server/client?http://0.0.0.0:4003',
+      'webpack-dev-server/client?http://0.0.0.0:' + rootConfig.devPort || 4003,
       './src/clientReact/index.js',
     ],
   },
@@ -66,7 +67,7 @@ var devConfig = {
     },
   },
   devServer: {
-    port:4003,
+    port: rootConfig.devPort || 4003,
     // where is the static file located
     contentBase: 'public',
     watch: true,
@@ -74,7 +75,7 @@ var devConfig = {
     // if we have backend server to serve data, we can use proxy
     proxy: {
       '*': {
-        target: 'http://localhost:' + 4000,
+        target: 'http://localhost:' + rootConfig.port || 4000,
         secure: false,
        // bypass: function bypass(req, res, proxyOptions) {
        //   if (/sockjs/.test(req.path))

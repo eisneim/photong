@@ -9,6 +9,7 @@ import * as actions from '../actionCreators'
 function mapStateToProps(state) {
   return {
     isAuthenticated: state.meta.isAuthenticated,
+    siteTitle: state.config.siteTitle,
   }
 }
 
@@ -28,11 +29,11 @@ export default class App extends Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props
+    const { isAuthenticated, siteTitle } = this.props
 
     return (
       <Layout fixedHeader>
-        <Header title="PHOTONG" style={{ color: 'white' }}>
+        <Header title={siteTitle || 'PHOTONG'} style={{ color: 'white' }}>
           <Navigation>
             <Link to="/">Home</Link>
             <Link to="/about">About</Link>

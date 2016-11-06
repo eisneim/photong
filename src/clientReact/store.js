@@ -154,6 +154,7 @@ export function regReducer(ctx) {
       albums: reducerWraper(albumHandlers, state.albums, action, ctx),
       resources: reducerWraper(resHandlers, state.resources, action, ctx),
       routing: routerReducer(state.routing, action),
+      config: state.config,
     }
   }
 }
@@ -171,6 +172,7 @@ export default function makeStore(ctx, albums) {
     },
     albums: albums,
     resources: {},
+    config: window.rootConfig || {},
   }
 
   const createStoreEnhanced = applyMiddleware(logger, requestPromise, readyStatePromise, thunk)(createStore)
