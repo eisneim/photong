@@ -22,6 +22,7 @@ export default class About extends Component {
             <a className="mdl-button mdl-js-button" target="_blank" href="https://vimeo.com/eisneim">Vimeo</a>
             <a className="mdl-button mdl-js-button" target="_blank" href="http://weibo.com/eisneim">微博</a>
             <a className="mdl-button mdl-js-button" target="_blank" href="https://www.zhihu.com/people/eisneim">知乎</a>
+            <a className="mdl-button mdl-js-button" target="_blank" href="https://github.com/eisneim">github</a>
             <span data-flex/>
             <a className="mdl-button mdl-js-button mdl-button--primary" target="_blank" href="http://glexe.com">My Site</a>
           </CardActions>

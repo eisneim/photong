@@ -94,6 +94,7 @@ const albumHandlers = {
     const album = action.result.data
     // to avoid dup request
     // album.isFresh = true
+    album.authorized = true
     const index = albums.findIndex(p => p._id == album._id)
     album.cover = album.resources.find(r => r._id === album.cover).thumb
     if (index > -1) {

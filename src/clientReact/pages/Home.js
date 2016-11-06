@@ -29,6 +29,11 @@ export default class Home extends Component {
     this.props.changeAlbumToken(id, e.target.value)
   }
 
+  checkToken(album) {
+    if (!album.token) return
+    this.props.$getAlbum(album._id, album.token)
+  }
+
   $renderAlbums(albums) {
     return albums.map(ab => {
       const cover = ab.cover && ab.cover._id ? ab.cover.thumb : ab.cover
@@ -50,7 +55,7 @@ export default class Home extends Component {
                   label="token"
                   data-flex
                   />
-                <IconButton name="check" />
+                <IconButton name="check" onClick={() => this.checkToken(ab)}/>
               </div>
             </div> : null
           }

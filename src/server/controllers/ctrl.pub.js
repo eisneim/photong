@@ -25,7 +25,7 @@ export default function adminCtrl(app) {
     if (!album)
       return ctx.json(`albumId: ${ctx.params.albumId} does not match any album`)
     if (album.token && album.token !== ctx.query.albumToken)
-      return ctx.json('albumToken is required to view this album')
+      return ctx.json('this album is protected, you have provided empty or unMatched token')
 
     const joined = Object.assign({}, album)
     joined.resources = (joined.resources || [])
