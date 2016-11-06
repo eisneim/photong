@@ -19,6 +19,9 @@ dump.rdb
 db.json
 uploads/
 
+_config.js
+_clientConfig.js
+
 
 public/build
 dist/

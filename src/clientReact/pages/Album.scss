@@ -1,13 +1,14 @@
 .root {
   background-color: #2a2e39;
+  position: relative;
 }
 .errorBox {
   padding: 10px;
   color: rgb(255,64,129);
 }
 .prevBtn, .nextBtn {
-  position: fixed;
-  top: 45%;
+  position: absolute;
+  bottom: 200px;
   z-index: 999;
   color: #aaa;
 }
