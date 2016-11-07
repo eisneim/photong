@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import easyimg from 'easyimage'
 import path from 'path'
+const debug = require('debug')('ph:imgUtil')
 
 var ExifImage = require('exif').ExifImage
 
@@ -15,6 +16,7 @@ var ExifImage = require('exif').ExifImage
  */
 /* eslint-disable no-new */
 export function getExif(imagePath) {
+  debug('get exif for:', imagePath)
   return new Promise((resolve) => {
     try {
       new ExifImage({ image: imagePath }, (error, exifData) => {
@@ -29,10 +31,12 @@ export function getExif(imagePath) {
 // resize an image and create a thumbnail
 //check if image is not too big, if so, not resize it
 export function resizeAndThumb(imgPath, resPath, thumbPath, maxWidth, maxHeight, toWidth) {
+  debug(`resizeAndThumb: imgPath, ${imgPath} resPath: ${resPath}, thumbPath: ${thumbPath}, maxWidth:${maxWidth}, maxHeight:${maxHeight}, toWidth:${toWidth}`)
   const replaceOriginal = imgPath === resPath
   try {
     return easyimg.info(imgPath)
     .then(img => {
+      debug(`img width and height: ${img.width} ${img.height}`)
       // resizeWidth,  resizeCoropWidth
       var rw, rh, rcw, rch
       if (img.height === 0) return reject('image height can not be 0')
@@ -111,6 +115,7 @@ export function resizeAndThumb(imgPath, resPath, thumbPath, maxWidth, maxHeight,
 }
 
 export function batchParse(files = []) {
+  debug(`batchParse: fileCount:${files.length}`)
   const promises = files.map(file => {
     const extname = path.extname(file.path)
     const basename = path.basename(file.path, extname)
@@ -125,6 +130,7 @@ export function batchParse(files = []) {
 }
 
 export function batchGetExif(files = []) {
+  debug(`batchGetExif: ${files.length}`)
   const promises = files.map(file => getExif(file.path))
   return Promise.all(promises)
 }
