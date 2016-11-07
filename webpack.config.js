@@ -64,6 +64,7 @@ var devConfig = {
     alias: {
       'PUB': path.resolve(__dirname, 'public'),
       'SCSS': path.resolve(__dirname, 'scss'),
+      // 'react': path.resolve(__dirname, 'node_modules/react/dist/react.js'),
     },
   },
   devServer: {
@@ -98,10 +99,7 @@ var devConfig = {
 \\/   \\/ /_/\\___/   \\/  \\___/\\_\\ \\/\\____/         photong by Eisneim(glexe.com)
 ****************************************************************
 `
-),
-    new webpack.DefinePlugin({
-      CONTRIBUTORS: JSON.stringify([ 'Eisneim' ]),
-    }),
+)
   ],
 }
 
@@ -109,8 +107,17 @@ var prodConfig = Object.assign({}, devConfig, {
   entry: {
     'photong': './src/clientReact/index.js',
   },
-  plugin: devConfig.plugins.slice(2),
+  plugins: devConfig.plugins.slice(2),
 })
+prodConfig.plugins.push(
+  new webpack.DefinePlugin({
+    CONTRIBUTORS: JSON.stringify([ 'Eisneim' ]),
+    'process.env': {
+      NODE_ENV: JSON.stringify('production'),
+    },
+  })
+)
+
 
 prodConfig.plugins.push(new ExtractTextPlugin('photong.css'))
 
