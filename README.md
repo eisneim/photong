@@ -1,6 +1,16 @@
-PHOTONG (working in progress)
+PHOTONG
 ==============
-self hosted photo manager writen in nodejs, koa2, react, redux
+responsive self hosted photo manager writen in nodejs, koa2, react, redux
+capable of read exif photo info
+[live demo](http://photography.glexe.com/)
+
+![screen shot](screenshot.png)
+
+## TODO
+ - image lazy loading
+ - complete management console
+ - manage ALBUMs
+ - theming
 
 
 ## install
